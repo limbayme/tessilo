@@ -2,7 +2,7 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "tessilo",
   "main": "dist/server/index.js",
-  "compatibility_date": "2026-07-11",
+  "compatibility_date": "2026-05-22",
   "assets": {
     "directory": "dist/client",
     "binding": "ASSETS"
