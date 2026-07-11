@@ -126,36 +126,39 @@ p {
   display: none;
   color: var(--navy);
   font-size: 25px;
-  width: 48px;
-  height: 48px;
+  position: relative;
+  width: 32px;
+  height: 32px;
   align-items: center;
   justify-content: center;
-  border: 1px solid var(--line);
-  border-radius: 50%;
+  border: 0;
+  border-radius: 0;
+  padding: 0;
+  background: transparent;
   transition: rotate 0.2s ease-in-out, background 0.2s ease-in-out;
 }
 
 .menu span {
   position: absolute;
-  width: 20px;
-  height: 2px;
+  width: 24px;
+  height: 3px;
   border-radius: 2px;
   background: currentColor;
   transition: transform 0.2s ease-in-out, opacity 0.2s ease-in-out;
 }
 
 .menu span:nth-child(1) {
-  transform: translateY(-6px);
+  transform: translateY(-8px);
 }
 
 .menu span:nth-child(3) {
-  transform: translateY(6px);
+  transform: translateY(8px);
 }
 
 .menu.is-open {
   rotate: 90deg;
-  color: white;
-  background: var(--navy);
+  color: var(--navy);
+  background: transparent;
 }
 
 .menu.is-open span:nth-child(1) {
@@ -230,31 +233,28 @@ p {
 .mobile-overlay {
   position: fixed;
   inset: 0;
-  z-index: 40;
+  z-index: 100;
   pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
 }
 
 .mobile-overlay.is-open {
   pointer-events: auto;
+  opacity: 1;
 }
 
 .mobile-scrim {
   position: absolute;
   inset: 0;
   border: 0;
-  background: rgba(17, 24, 39, 0.35);
-  opacity: 0;
-  transition: opacity 0.2s ease-in-out;
-}
-
-.mobile-overlay.is-open .mobile-scrim {
-  opacity: 1;
+  background: rgba(17, 24, 39, 0.52);
 }
 
 .mobile-panel {
   position: relative;
   z-index: 1;
-  width: min(375px, 100vw);
+  width: min(375px, 86vw);
   min-height: 563px;
   height: 100%;
   color: white;
@@ -1395,6 +1395,14 @@ p {
     padding-inline: 24px;
   }
 
+  .mobile-panel {
+    width: 100vw;
+  }
+
+  .mobile-scrim {
+    display: none;
+  }
+
   .brand {
     gap: 8px;
     font-size: 25px;
@@ -1403,6 +1411,11 @@ p {
   .brand img {
     width: 28px;
     height: 28px;
+  }
+
+  .site-header .brand {
+    gap: 12px;
+    font-size: 32px;
   }
 
   .hero {
