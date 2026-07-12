@@ -283,6 +283,7 @@ p {
   width: min(375px, 86vw);
   min-height: 563px;
   height: 100%;
+  overflow-x: hidden;
   color: white;
   background: var(--navy);
   transform: translateX(-105%);
@@ -363,6 +364,7 @@ p {
 .mobile-quote {
   margin: 16px 24px 0;
   width: calc(100% - 48px);
+  max-width: calc(100% - 48px);
 }
 
 .pill {
@@ -711,7 +713,7 @@ p {
 
 .whatsapp-mini {
   justify-self: center;
-  color: #128c7e;
+  color: var(--gold);
   font-size: 13px;
   font-weight: 800;
 }
@@ -1076,12 +1078,14 @@ p {
 
 .whatsapp {
   color: white;
-  background: #128c7e;
-  border-color: #128c7e;
+  background: var(--navy);
+  border-color: rgba(201, 169, 110, 0.72);
 }
 
 .whatsapp:hover {
-  background: #0f7a6f;
+  color: var(--navy);
+  background: var(--gold);
+  border-color: var(--gold);
 }
 
 .footer {
@@ -1592,6 +1596,12 @@ p {
     width: 100%;
     min-height: 46px;
     padding: 13px 20px;
+  }
+
+  .mobile-panel .mobile-quote {
+    width: calc(100% - 48px);
+    max-width: calc(100% - 48px);
+    margin-inline: 24px;
   }
 
   .hero-actions,

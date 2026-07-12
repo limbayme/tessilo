@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 
 const A = "/assets/";
 const WHATSAPP_URL = "https://wa.me/18296874119?text=Hello%20Tessilo%2C%20I%20would%20like%20to%20request%20a%20B2B%20furniture%20quote.";
+const INQUIRY_EMAIL = "leo@digitauro.com";
 
 type Lang = "en" | "zh" | "de" | "fr";
 
@@ -1110,18 +1111,30 @@ function Cta({ lang }: { lang: Lang }) {
         className="quote-form"
         onSubmit={(event) => {
           event.preventDefault();
+          const form = event.currentTarget;
+          const data = new FormData(form);
+          const body = [
+            "Tessilo B2B inquiry",
+            "",
+            `Product: ${data.get("product") ?? ""}`,
+            `Quantity: ${data.get("quantity") ?? ""}`,
+            `Business email: ${data.get("email") ?? ""}`,
+            "",
+            `Project notes: ${data.get("message") ?? ""}`,
+          ].join("\n");
+          window.location.href = `mailto:${INQUIRY_EMAIL}?subject=${encodeURIComponent("Tessilo B2B Inquiry")}&body=${encodeURIComponent(body)}`;
           setSubmitted(true);
         }}
       >
-        <select required defaultValue="" aria-label={copy.productPlaceholder}>
+        <select name="product" required defaultValue="" aria-label={copy.productPlaceholder}>
           <option value="" disabled>{copy.productPlaceholder}</option>
           {listing.map((product) => (
             <option value={product.name} key={product.name}>{productLabel(product, lang).name} · {product.price}</option>
           ))}
         </select>
-        <input type="number" min="1" placeholder={copy.quantityPlaceholder} aria-label={copy.quantityPlaceholder} />
-        <input type="email" required placeholder={copy.emailPlaceholder} aria-label="Business email" />
-        <textarea placeholder={copy.messagePlaceholder} aria-label={copy.messagePlaceholder} rows={3} />
+        <input name="quantity" type="number" min="1" placeholder={copy.quantityPlaceholder} aria-label={copy.quantityPlaceholder} />
+        <input name="email" type="email" required placeholder={copy.emailPlaceholder} aria-label="Business email" />
+        <textarea name="message" placeholder={copy.messagePlaceholder} aria-label={copy.messagePlaceholder} rows={3} />
         <div className="quote-actions">
           <button className="button gold" type="submit">{submitted ? copy.submitted : copy.getStarted}</button>
           <a className="button whatsapp" href={WHATSAPP_URL} target="_blank" rel="noreferrer">{copy.whatsappQuote}</a>
