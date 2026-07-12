@@ -6,8 +6,10 @@ Tessilo is a responsive B2B furniture independent site built from the Figma desi
 
 - Responsive landing page based on the Figma desktop, tablet, and mobile layouts
 - Mobile navigation overlay with slide-in motion and animated hamburger state
-- Product listing with interactive category/material filters and price range control
+- Product listing with interactive category/product-type filters and euro price range control
 - Product detail section with gallery thumbnails, finish selector, product tabs, and related products
+- Excel-backed product catalog update: 9 Tessilo products with euro prices, logistics fees, notes, and social media contact channels
+- AI-rendered coffee table scene images based on the Excel Image2 product reference
 - FAQ accordion and quote form interaction
 - Figma micro-interactions translated into CSS:
   - primary CTA hover scale, lifted shadow, and pressed inset state
@@ -70,8 +72,11 @@ app/globals.css         Design tokens, layout, responsive styles, interactions
 app/layout.tsx          Metadata and document shell
 wrangler.jsonc          Cloudflare Worker deploy config
 public/assets/          Localized Figma imagery
+public/assets/excel/    Excel product images, QR/social assets, and generated scene renders
 ```
 
 ## Notes
 
 Figma MCP asset URLs expire, so product and brand imagery used by the site is stored locally in `public/assets`.
+
+The current product, price, logistics, and social media content was updated from `Tessilo产品+社媒完整表.xlsx`. If the Excel changes later, refresh the exported images in `public/assets/excel/` and update the product/social arrays in `app/TessiloClient.tsx`.

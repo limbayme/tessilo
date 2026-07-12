@@ -6,10 +6,13 @@ const A = "/assets/";
 
 type Product = {
   name: string;
-  material: string;
+  spec: string;
   image: string;
-  category?: string;
-  price?: string;
+  category: string;
+  unitPrice: number;
+  price: string;
+  logistics: string;
+  note?: string;
 };
 
 const navItems = [
@@ -43,18 +46,93 @@ const categories = [
 ];
 
 const featured: Product[] = [
-  { name: "Executive Horizon Desk", material: "Walnut & Steel", image: "product-desk.png", price: "From $1,200" },
-  { name: "Serenity Lounge Chair", material: "Full-Grain Leather", image: "product-chair.png", price: "From $860" },
-  { name: "Atrium Modular Sofa", material: "High-Performance Textile", image: "product-sofa.png", price: "From $2,400" },
+  {
+    name: "Storage Corner Sofa",
+    spec: "2.45m corner sofa with storage",
+    image: "excel/row-02-col-02.png",
+    category: "Living Room",
+    unitPrice: 299.05,
+    price: "€299.05 / unit",
+    logistics: "Logistics €57",
+  },
+  {
+    name: "Nested Round Coffee Tables",
+    spec: "Large + small round coffee table set",
+    image: "excel/coffee-table-scene-living.jpg",
+    category: "Living Room",
+    unitPrice: 40,
+    price: "€40 / set",
+    logistics: "Logistics €12.59",
+    note: "Negotiable",
+  },
+  {
+    name: "L-Shaped Office Desk",
+    spec: "Corner workstation desk",
+    image: "excel/row-09-col-02.png",
+    category: "Office",
+    unitPrice: 72,
+    price: "€72 / unit",
+    logistics: "Logistics €19.21",
+  },
 ];
 
 const listing: Product[] = [
-  { name: "Meridian Executive Desk", material: "Walnut & Steel", image: "listing-desk.png", category: "Office Furniture", price: "From $1,200" },
-  { name: "Serenity Lounge Chair", material: "Full-Grain Leather", image: "listing-chair.png", category: "Hospitality", price: "From $860" },
-  { name: "Atrium Modular Sofa", material: "Performance Textile", image: "listing-sofa.png", category: "Residential", price: "From $2,400" },
-  { name: "Vanguard Task Chair", material: "Breathable Mesh", image: "listing-task-chair.png", category: "Office Furniture", price: "From $450" },
-  { name: "Oasis Conference Table", material: "Oak Wood", image: "listing-table.png", category: "Office Furniture", price: "From $3,200" },
-  { name: "Summit Bar Stool", material: "Leather & Chrome", image: "listing-stool.png", category: "Hospitality", price: "From $540" },
+  ...featured,
+  {
+    name: "Low TV Cabinet",
+    spec: "1.7m TV cabinet",
+    image: "excel/row-04-col-02.png",
+    category: "Living Room",
+    unitPrice: 50,
+    price: "€50 / unit",
+    logistics: "Logistics €23.70",
+    note: "Negotiable",
+  },
+  {
+    name: "Leather Dining Chairs",
+    spec: "Two leather dining chairs",
+    image: "excel/row-05-col-02.png",
+    category: "Dining",
+    unitPrice: 65,
+    price: "€65 / 2 pcs",
+    logistics: "Logistics €11.44",
+  },
+  {
+    name: "Swivel Office Chair",
+    spec: "Rotating office chair",
+    image: "excel/row-06-col-02.png",
+    category: "Office",
+    unitPrice: 49.35,
+    price: "€49.35 / unit",
+    logistics: "Logistics €9.81",
+  },
+  {
+    name: "One-Drawer Nightstand",
+    spec: "Compact bedside cabinet",
+    image: "excel/row-07-col-02.png",
+    category: "Bedroom",
+    unitPrice: 35,
+    price: "€35 / unit",
+    logistics: "Logistics €8.24",
+  },
+  {
+    name: "Solid Wood Chest",
+    spec: "Full solid wood drawer cabinet",
+    image: "excel/row-08-col-02.png",
+    category: "Storage",
+    unitPrice: 135,
+    price: "€135 / unit",
+    logistics: "Logistics €26.59",
+  },
+  {
+    name: "Fabric Sofa Bed",
+    spec: "1.6m fabric sofa bed",
+    image: "excel/row-10-col-02.png",
+    category: "Living Room",
+    unitPrice: 161,
+    price: "€161 / unit",
+    logistics: "Logistics €11",
+  },
 ];
 
 const stats = [
@@ -72,17 +150,17 @@ const steps = [
 ];
 
 const detailImages = [
-  "detail-main.png",
-  "detail-thumb-1.png",
-  "listing-desk.png",
-  "product-desk.png",
+  "excel/coffee-table-scene-living.jpg",
+  "excel/row-03-col-02.png",
+  "excel/coffee-table-scene-hotel.jpg",
+  "excel/coffee-table-scene-reception.jpg",
 ];
 
 const finishOptions = [
-  { name: "Dark Walnut", color: "#3d2b1f" },
-  { name: "Smoked Oak", color: "#5d4b3f" },
-  { name: "Natural Ash", color: "#a38f7a" },
-  { name: "Midnight Steel", color: "#1b2a4a" },
+  { name: "Living Room", color: "#c9a96e" },
+  { name: "Original Product", color: "#f7f7f2" },
+  { name: "Hotel Suite", color: "#6b5746" },
+  { name: "Reception Lounge", color: "#1b2a4a" },
 ];
 
 const faqs = [
@@ -101,6 +179,43 @@ const faqs = [
   {
     q: "What is the average lead time for large orders?",
     a: "Stock programs usually ship in 3–6 weeks. Custom manufacturing typically ranges from 8–14 weeks after final sign-off.",
+  },
+];
+
+const socialLinks = [
+  {
+    platform: "TikTok",
+    handle: "@tessilo10",
+    href: "https://www.tiktok.com/@tessilo10",
+    note: "Short-form product discovery",
+    image: "excel/row-15-col-03.png",
+  },
+  {
+    platform: "Instagram",
+    handle: "@tessilo_home",
+    href: "https://www.instagram.com/tessilo_home",
+    note: "Furniture moodboards and product visuals",
+    image: "excel/row-16-col-03.png",
+  },
+  {
+    platform: "Facebook",
+    handle: "Tessilo Global Home",
+    href: "https://www.facebook.com/profile.php?id=61591637766953",
+    note: "B2B wholesale profile",
+    image: "excel/row-17-col-03.png",
+  },
+  {
+    platform: "LinkedIn",
+    handle: "Tessilo Global Home",
+    href: "https://www.linkedin.com/in/%E6%85%A7-%E5%88%98-5375aa410/",
+    note: "International B2B development",
+  },
+  {
+    platform: "WhatsApp",
+    handle: "18296874119",
+    href: "https://wa.me/18296874119",
+    note: "Direct product enquiries",
+    image: "excel/row-19-col-03.png",
   },
 ];
 
@@ -278,9 +393,10 @@ function ProductCard({ product }: { product: Product }) {
         <img src={`${A}${product.image}`} alt={product.name} />
       </div>
       <div className="product-body">
-        <span>{product.material}</span>
+        <span>{product.spec}</span>
         <h3>{product.name}</h3>
-        {product.price ? <p>{product.price}</p> : null}
+        <p className="price-line">{product.price}</p>
+        <p>{product.logistics}{product.note ? ` · ${product.note}` : ""}</p>
       </div>
       <div className="product-action">
         <a className="button outline" href="#quote">Request Quote</a>
@@ -369,40 +485,42 @@ function GlobalReach() {
 function ProductListing() {
   const [activeCategories, setActiveCategories] = useState<string[]>([]);
   const [activeMaterials, setActiveMaterials] = useState<string[]>([]);
-  const [maxPrice, setMaxPrice] = useState(5000);
+  const [maxPrice, setMaxPrice] = useState(320);
 
   const visibleProducts = useMemo(() => {
     return listing.filter((product) => {
       const categoryMatch = activeCategories.length === 0 || activeCategories.includes(product.category ?? "");
-      const materialMatch = activeMaterials.length === 0 || activeMaterials.some((material) => product.material.includes(material));
-      return categoryMatch && materialMatch;
+      const searchable = `${product.spec} ${product.name}`.toLowerCase();
+      const materialMatch = activeMaterials.length === 0 || activeMaterials.some((material) => searchable.includes(material.toLowerCase()));
+      const priceMatch = product.unitPrice <= maxPrice;
+      return categoryMatch && materialMatch && priceMatch;
     });
-  }, [activeCategories, activeMaterials]);
+  }, [activeCategories, activeMaterials, maxPrice]);
 
   return (
     <section className="listing" aria-label="Product listing preview">
       <div className="listing-top">
         <span>Home / <b>Collections</b></span>
         <h2>Our Collections</h2>
-        <p>{visibleProducts.length} of 128 items visible</p>
+        <p>{visibleProducts.length} of {listing.length} Excel items visible</p>
       </div>
       <div className="listing-layout">
         <aside className="filters" aria-label="Filters">
-          <FilterGroup title="Categories" items={["Office Furniture", "Hospitality", "Residential", "Outdoor"]} selected={activeCategories} onChange={setActiveCategories} />
-          <FilterGroup title="Material" items={["Walnut", "Leather", "Textile", "Oak"]} selected={activeMaterials} onChange={setActiveMaterials} />
+          <FilterGroup title="Categories" items={["Living Room", "Office", "Dining", "Bedroom", "Storage"]} selected={activeCategories} onChange={setActiveCategories} />
+          <FilterGroup title="Product Type" items={["Sofa", "Coffee", "Chair", "Desk", "Cabinet", "Bed"]} selected={activeMaterials} onChange={setActiveMaterials} />
           <div className="filter-group">
             <h3>Price Range</h3>
             <label className="range-control">
               <input
                 type="range"
-                min="500"
-                max="5000"
-                step="100"
+                min="30"
+                max="320"
+                step="5"
                 value={maxPrice}
                 onChange={(event) => setMaxPrice(Number(event.target.value))}
               />
             </label>
-            <div className="range-labels"><span>$500</span><span>${maxPrice.toLocaleString()}+</span></div>
+            <div className="range-labels"><span>€30</span><span>€{maxPrice.toLocaleString()}</span></div>
           </div>
         </aside>
         <div className="listing-grid">
@@ -450,10 +568,10 @@ function ProductDetail() {
 
   return (
     <section className="product-detail" id="detail">
-      <div className="breadcrumb">Home / Office Furniture / <b>Meridian Executive Desk</b></div>
+      <div className="breadcrumb">Home / Living Room / <b>Nested Round Coffee Tables</b></div>
       <div className="detail-layout">
         <div className="detail-gallery">
-          <img className="detail-main-image" src={`${A}${detailImages[activeImage]}`} alt="Meridian Executive Desk" />
+          <img className="detail-main-image" src={`${A}${detailImages[activeImage]}`} alt="Nested round coffee tables" />
           <div className="detail-thumbs">
             {detailImages.map((image, index) => (
               <button className={index === activeImage ? "is-active" : ""} type="button" key={image} onClick={() => setActiveImage(index)}>
@@ -463,12 +581,12 @@ function ProductDetail() {
           </div>
         </div>
         <div className="detail-copy">
-          <span>Walnut &amp; Steel Collection</span>
-          <h2>Meridian Executive Desk</h2>
-          <strong>From $1,200 / unit</strong>
+          <span>Living Room Collection</span>
+          <h2>Nested Round Coffee Tables</h2>
+          <strong>€40 / set · Logistics €12.59</strong>
           <div className="detail-divider" />
           <div className="finish-picker">
-            <p>Select Finish: <b>{finishOptions[activeFinish].name}</b></p>
+            <p>Scene Render: <b>{finishOptions[activeFinish].name}</b></p>
             <div>
               {finishOptions.map((finish, index) => (
                 <button
@@ -477,21 +595,24 @@ function ProductDetail() {
                   key={finish.name}
                   style={{ background: finish.color }}
                   type="button"
-                  onClick={() => setActiveFinish(index)}
+                  onClick={() => {
+                    setActiveFinish(index);
+                    setActiveImage(index);
+                  }}
                 />
               ))}
             </div>
           </div>
           <div className="specs">
             <h3>Specifications</h3>
-            <p>• Dimensions: 200cm x 90cm x 75cm</p>
-            <p>• Weight Capacity: 150kg</p>
-            <p>• Cable Management: Integrated under-desk tray</p>
+            <p>• Product: large + small round coffee table set</p>
+            <p>• Finish: white marble-look tops with black metal circular frames</p>
+            <p>• Price note: negotiable for B2B quantity orders</p>
           </div>
-          <span className="moq">MOQ: 50 UNITS MINIMUM</span>
+          <span className="moq">SOURCE: TESSILO PRODUCT EXCEL</span>
           <div className="detail-actions">
             <a className="button gold" href="#quote">Request Pricing Quote</a>
-            <a className="button outline" href="/assets/detail-main.png" download>Download Spec Sheet</a>
+            <a className="button outline" href="/assets/excel/row-03-col-02.png" download>Download Product Image</a>
           </div>
         </div>
       </div>
@@ -503,22 +624,22 @@ function ProductDetail() {
         ))}
       </div>
       <div className="detail-tab-panel">
-        <h3>{activeTab === "Description" ? "The Zenith of Professional Craftsmanship" : activeTab}</h3>
+        <h3>{activeTab === "Description" ? "Compact tables for premium living and hospitality spaces" : activeTab}</h3>
         <p>
           {activeTab === "Description"
-            ? "The Meridian Executive Desk is more than a workstation; it is a statement of leadership. Carved from solid American walnut and supported by a precision-engineered steel frame, it balances organic warmth with industrial strength."
+            ? "A nested coffee table set designed for flexible lounge styling, hotel suites, apartment living rooms, and small-space merchandising. The Excel source lists this item as 大小圆茶几 with a €40 unit price and €12.59 logistics fee."
             : activeTab === "Specifications"
-              ? "Available with bespoke dimensions, multiple veneer finishes, integrated power modules, and project-specific packaging."
-              : "Tessilo supports international freight, consolidated project delivery, customs documentation, and optional white-glove installation coordination."}
+              ? "Two round tables, white stone-look surface, slim black circular metal base, suitable for coordinated living-room and hospitality packages."
+              : "Listed logistics fee is €12.59. For combined orders, Tessilo can quote consolidated shipping and B2B quantity pricing."}
         </p>
       </div>
       <div className="related">
         <h2>Complementary Pieces</h2>
         <div className="product-row">
           {[
-            { name: "Vanguard Task Chair", material: "Breathable Mesh", image: "listing-task-chair.png", price: "From $450" },
-            { name: "Nexus Side Cabinet", material: "Walnut Wood", image: "listing-table.png", price: "From $680" },
-            { name: "Aura Desk Lamp", material: "Brass & Glass", image: "product-desk.png", price: "From $220" },
+            listing[0],
+            listing[3],
+            listing[8],
           ].map((product) => <ProductCard product={product} key={product.name} />)}
         </div>
       </div>
@@ -581,11 +702,36 @@ function Footer() {
             <span>Tessilo</span>
           </a>
           <p>The Home of Comfort &amp; Style. Global B2B leaders in premium contract furniture and architectural solutions.</p>
-          <div className="socials"><span>f</span><span>ig</span><span>in</span><span>x</span></div>
+          <div className="socials" aria-label="Tessilo social media">
+            {socialLinks.map((item) => (
+              <a href={item.href} key={item.platform} target="_blank" rel="noreferrer" aria-label={item.platform}>
+                {item.platform === "Instagram" ? "ig" : item.platform.slice(0, 2)}
+              </a>
+            ))}
+          </div>
         </div>
-        <FooterColumn title="Products" items={["Office", "Hospitality", "Custom", "Collections"]} />
-        <FooterColumn title="Company" items={["About Us", "Our Process", "Careers", "Sustainability"]} />
-        <FooterColumn title="Support" items={["Request Quote", "Partner Portal", "Catalog Download", "Contact"]} />
+        <FooterColumn title="Products" items={["Sofa", "Coffee Tables", "Office Chair", "Office Desk", "Storage Cabinet"]} />
+        <FooterColumn title="Company" items={["About Us", "Our Process", "B2B Wholesale", "Global Logistics"]} />
+        <div className="footer-col social-column">
+          <h3>Social &amp; Contact</h3>
+          {socialLinks.map((item) => (
+            <a href={item.href} key={item.platform} target="_blank" rel="noreferrer">
+              <strong>{item.platform}</strong>
+              <span>{item.handle}</span>
+            </a>
+          ))}
+        </div>
+      </div>
+      <div className="qr-grid" aria-label="Social QR codes">
+        {socialLinks.filter((item) => item.image).map((item) => (
+          <article key={item.platform}>
+            <img src={`${A}${item.image}`} alt={`${item.platform} QR code`} />
+            <div>
+              <strong>{item.platform}</strong>
+              <span>{item.note}</span>
+            </div>
+          </article>
+        ))}
       </div>
       <div className="footer-bottom">
         <span>© 2026 Tessilo Global Home. All rights reserved.</span>
