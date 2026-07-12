@@ -89,7 +89,17 @@ const ui = {
     quantityPlaceholder: "Estimated quantity",
     messagePlaceholder: "Project notes, destination country, target delivery time...",
     whatsappQuote: "Chat on WhatsApp",
+    whatsappShort: "WhatsApp",
     inquirySteps: ["Choose a product", "Share quantity & destination", "Confirm by WhatsApp"],
+    mailTitle: "Tessilo B2B inquiry",
+    mailSubject: "Tessilo B2B Inquiry",
+    mailProduct: "Product",
+    mailQuantity: "Quantity",
+    mailEmail: "Business email",
+    mailNotes: "Project notes",
+    b2bWholesale: "B2B Wholesale",
+    reachStats: ["Countries", "Partners", "Years"],
+    regions: ["North America", "European Union", "Middle East", "Southeast Asia"],
     submitted: "Submitted",
     getStarted: "Get Started",
     formNote: "Thanks — our contract team will follow up shortly.",
@@ -97,6 +107,7 @@ const ui = {
     company: "Company",
     socialContact: "Social & Contact",
     privacy: "Privacy Policy · Terms of Service · Cookie Settings",
+    rights: "All rights reserved.",
   },
   zh: {
     nav: { products: "产品", solutions: "解决方案", about: "关于", contact: "联系" },
@@ -153,7 +164,17 @@ const ui = {
     quantityPlaceholder: "预计采购数量",
     messagePlaceholder: "项目备注、目的国家、期望交付时间...",
     whatsappQuote: "WhatsApp 直接咨询",
+    whatsappShort: "WhatsApp",
     inquirySteps: ["选择产品", "填写数量与目的地", "通过 WhatsApp 确认"],
+    mailTitle: "Tessilo B2B 询盘",
+    mailSubject: "Tessilo B2B 询盘",
+    mailProduct: "产品",
+    mailQuantity: "数量",
+    mailEmail: "企业邮箱",
+    mailNotes: "项目备注",
+    b2bWholesale: "B2B 批发",
+    reachStats: ["国家/地区", "合作伙伴", "行业经验"],
+    regions: ["北美", "欧盟", "中东", "东南亚"],
     submitted: "已提交",
     getStarted: "开始咨询",
     formNote: "谢谢，我们的合同家具团队会尽快联系你。",
@@ -161,6 +182,7 @@ const ui = {
     company: "公司",
     socialContact: "社媒与联系",
     privacy: "隐私政策 · 服务条款 · Cookie 设置",
+    rights: "保留所有权利。",
   },
   de: {
     nav: { products: "Produkte", solutions: "Lösungen", about: "Über uns", contact: "Kontakt" },
@@ -217,14 +239,25 @@ const ui = {
     quantityPlaceholder: "Geschätzte Menge",
     messagePlaceholder: "Projektinfo, Zielland, gewünschter Liefertermin...",
     whatsappQuote: "Per WhatsApp chatten",
+    whatsappShort: "WhatsApp",
     inquirySteps: ["Produkt wählen", "Menge & Zielort teilen", "Per WhatsApp bestätigen"],
+    mailTitle: "Tessilo B2B-Anfrage",
+    mailSubject: "Tessilo B2B-Anfrage",
+    mailProduct: "Produkt",
+    mailQuantity: "Menge",
+    mailEmail: "Geschäftliche E-Mail",
+    mailNotes: "Projektinfo",
+    b2bWholesale: "B2B-Großhandel",
+    reachStats: ["Länder", "Partner", "Jahre"],
+    regions: ["Nordamerika", "Europäische Union", "Naher Osten", "Südostasien"],
     submitted: "Gesendet",
     getStarted: "Starten",
     formNote: "Danke — unser Vertragsteam meldet sich in Kürze.",
-    footerCopy: "The Home of Comfort & Style. Globale B2B-Experten für Premium-Vertragsmöbel und architektonische Lösungen.",
+    footerCopy: "Zuhause für Komfort und Stil. Globale B2B-Experten für Premium-Vertragsmöbel und architektonische Lösungen.",
     company: "Unternehmen",
     socialContact: "Social & Kontakt",
     privacy: "Datenschutz · Nutzungsbedingungen · Cookie-Einstellungen",
+    rights: "Alle Rechte vorbehalten.",
   },
   fr: {
     nav: { products: "Produits", solutions: "Solutions", about: "À propos", contact: "Contact" },
@@ -281,39 +314,73 @@ const ui = {
     quantityPlaceholder: "Quantité estimée",
     messagePlaceholder: "Notes projet, pays de destination, délai souhaité...",
     whatsappQuote: "Discuter sur WhatsApp",
+    whatsappShort: "WhatsApp",
     inquirySteps: ["Choisir un produit", "Partager quantité & destination", "Confirmer par WhatsApp"],
+    mailTitle: "Demande B2B Tessilo",
+    mailSubject: "Demande B2B Tessilo",
+    mailProduct: "Produit",
+    mailQuantity: "Quantité",
+    mailEmail: "E-mail professionnel",
+    mailNotes: "Notes projet",
+    b2bWholesale: "Vente B2B",
+    reachStats: ["Pays", "Partenaires", "Années"],
+    regions: ["Amérique du Nord", "Union européenne", "Moyen-Orient", "Asie du Sud-Est"],
     submitted: "Envoyé",
     getStarted: "Commencer",
     formNote: "Merci — notre équipe contract vous contactera rapidement.",
-    footerCopy: "The Home of Comfort & Style. Expert B2B mondial du mobilier contract premium et des solutions architecturales.",
+    footerCopy: "La maison du confort et du style. Expert B2B mondial du mobilier contract premium et des solutions architecturales.",
     company: "Entreprise",
     socialContact: "Réseaux & contact",
     privacy: "Confidentialité · Conditions d'utilisation · Paramètres des cookies",
+    rights: "Tous droits réservés.",
   },
 } satisfies Record<Lang, Record<string, any>>;
 
 const categories = [
   {
-    title: "Office Furniture",
-    copy: "Bespoke excellence for executive suites and collaborative workspaces.",
+    key: "office",
     image: "category-office.png",
   },
   {
-    title: "Hospitality Furniture",
-    copy: "Contract-grade comfort for hotels, restaurants, lounges and clubs.",
+    key: "hospitality",
     image: "category-hospitality.png",
   },
   {
-    title: "Residential Collections",
-    copy: "Refined silhouettes for premium developments and private villas.",
+    key: "residential",
     image: "category-residential.png",
   },
   {
-    title: "Custom Solutions",
-    copy: "Made-to-spec programs for architects, developers and procurement teams.",
+    key: "custom",
     image: "category-custom.png",
   },
 ];
+
+const categoryCards: Record<string, Record<Lang, { title: string; copy: string }>> = {
+  office: {
+    en: { title: "Office Furniture", copy: "Bespoke excellence for executive suites and collaborative workspaces." },
+    zh: { title: "办公家具", copy: "服务高管办公室与协作空间的定制化家具方案。" },
+    de: { title: "Büromöbel", copy: "Maßgeschneiderte Qualität für Executive Suites und kollaborative Arbeitsbereiche." },
+    fr: { title: "Mobilier de bureau", copy: "Excellence sur mesure pour bureaux de direction et espaces collaboratifs." },
+  },
+  hospitality: {
+    en: { title: "Hospitality Furniture", copy: "Contract-grade comfort for hotels, restaurants, lounges and clubs." },
+    zh: { title: "酒店与商业家具", copy: "适用于酒店、餐厅、休闲区与会所的合同级舒适体验。" },
+    de: { title: "Hospitality-Möbel", copy: "Vertragsqualität für Hotels, Restaurants, Lounges und Clubs." },
+    fr: { title: "Mobilier hospitality", copy: "Confort contractuel pour hôtels, restaurants, lounges et clubs." },
+  },
+  residential: {
+    en: { title: "Residential Collections", copy: "Refined silhouettes for premium developments and private villas." },
+    zh: { title: "住宅系列", copy: "为高端住宅项目与私人别墅打造精致轮廓。" },
+    de: { title: "Wohnkollektionen", copy: "Raffinierte Silhouetten für Premium-Entwicklungen und private Villen." },
+    fr: { title: "Collections résidentielles", copy: "Silhouettes raffinées pour programmes premium et villas privées." },
+  },
+  custom: {
+    en: { title: "Custom Solutions", copy: "Made-to-spec programs for architects, developers and procurement teams." },
+    zh: { title: "定制方案", copy: "面向建筑师、开发商与采购团队的按需定制项目。" },
+    de: { title: "Individuelle Lösungen", copy: "Spezifikationsgenaue Programme für Architekten, Entwickler und Einkaufsteams." },
+    fr: { title: "Solutions sur mesure", copy: "Programmes personnalisés pour architectes, promoteurs et équipes achats." },
+  },
+};
 
 const featured: Product[] = [
   {
@@ -489,18 +556,72 @@ const productSearchTerms: Record<string, string[]> = {
 };
 
 const stats = [
-  ["50+", "Countries", "Global shipping & logistics network."],
-  ["15+", "Years", "Of industry-leading furniture expertise."],
-  ["10k+", "Products", "Extensive catalog of ready designs."],
-  ["500+", "Partners", "Active B2B global partnerships."],
+  ["50+", "countries"],
+  ["15+", "years"],
+  ["10k+", "products"],
+  ["500+", "partners"],
 ];
 
+const statsCopy: Record<string, Record<Lang, { label: string; copy: string }>> = {
+  countries: {
+    en: { label: "Countries", copy: "Global shipping & logistics network." },
+    zh: { label: "国家/地区", copy: "覆盖全球的运输与物流网络。" },
+    de: { label: "Länder", copy: "Globales Versand- und Logistiknetzwerk." },
+    fr: { label: "Pays", copy: "Réseau mondial d'expédition et de logistique." },
+  },
+  years: {
+    en: { label: "Years", copy: "Of industry-leading furniture expertise." },
+    zh: { label: "年经验", copy: "深耕家具供应与项目交付。" },
+    de: { label: "Jahre", copy: "Branchenerfahrung im Möbelbereich." },
+    fr: { label: "Années", copy: "D'expertise dans le mobilier professionnel." },
+  },
+  products: {
+    en: { label: "Products", copy: "Extensive catalog of ready designs." },
+    zh: { label: "产品", copy: "丰富的现货与可选设计目录。" },
+    de: { label: "Produkte", copy: "Umfangreicher Katalog fertiger Designs." },
+    fr: { label: "Produits", copy: "Large catalogue de modèles disponibles." },
+  },
+  partners: {
+    en: { label: "Partners", copy: "Active B2B global partnerships." },
+    zh: { label: "合作伙伴", copy: "持续服务全球 B2B 合作网络。" },
+    de: { label: "Partner", copy: "Aktive globale B2B-Partnerschaften." },
+    fr: { label: "Partenaires", copy: "Partenariats B2B actifs à l'international." },
+  },
+};
+
 const steps = [
-  ["01", "Consultation", "Understanding your spatial requirements and project scope."],
-  ["02", "Custom Design", "Bespoke engineering and aesthetic selection by our studio."],
-  ["03", "Manufacturing", "Precision fabrication at our global facility hubs."],
-  ["04", "Global Delivery", "Seamless logistics to any continent with white-glove service."],
+  ["01", "consultation"],
+  ["02", "design"],
+  ["03", "manufacturing"],
+  ["04", "delivery"],
 ];
+
+const stepsCopy: Record<string, Record<Lang, { title: string; copy: string }>> = {
+  consultation: {
+    en: { title: "Consultation", copy: "Understanding your spatial requirements and project scope." },
+    zh: { title: "需求沟通", copy: "了解空间需求、采购数量与项目范围。" },
+    de: { title: "Beratung", copy: "Wir verstehen Raumanforderungen und Projektumfang." },
+    fr: { title: "Consultation", copy: "Comprendre vos besoins d'espace et le périmètre du projet." },
+  },
+  design: {
+    en: { title: "Custom Design", copy: "Bespoke engineering and aesthetic selection by our studio." },
+    zh: { title: "定制设计", copy: "提供结构、饰面与风格建议。" },
+    de: { title: "Individuelles Design", copy: "Maßgeschneiderte Technik und ästhetische Auswahl durch unser Studio." },
+    fr: { title: "Design sur mesure", copy: "Ingénierie personnalisée et sélection esthétique par notre studio." },
+  },
+  manufacturing: {
+    en: { title: "Manufacturing", copy: "Precision fabrication at our global facility hubs." },
+    zh: { title: "生产制造", copy: "按项目规格完成生产、质检与包装。" },
+    de: { title: "Fertigung", copy: "Präzise Herstellung in unseren Produktionszentren." },
+    fr: { title: "Fabrication", copy: "Production précise dans nos pôles de fabrication." },
+  },
+  delivery: {
+    en: { title: "Global Delivery", copy: "Seamless logistics to any continent with white-glove service." },
+    zh: { title: "全球交付", copy: "支持合并运输、清关资料与项目交付安排。" },
+    de: { title: "Globale Lieferung", copy: "Reibungslose Logistik auf jeden Kontinent." },
+    fr: { title: "Livraison mondiale", copy: "Logistique fluide vers tous les continents." },
+  },
+};
 
 const detailImages = [
   "excel/coffee-table-scene-living.jpg",
@@ -510,11 +631,18 @@ const detailImages = [
 ];
 
 const finishOptions = [
-  { name: "Living Room", color: "#c9a96e" },
-  { name: "Original Product", color: "#f7f7f2" },
-  { name: "Hotel Suite", color: "#6b5746" },
-  { name: "Reception Lounge", color: "#1b2a4a" },
+  { key: "living", color: "#c9a96e" },
+  { key: "original", color: "#f7f7f2" },
+  { key: "hotel", color: "#6b5746" },
+  { key: "reception", color: "#1b2a4a" },
 ];
+
+const sceneCopy: Record<string, Record<Lang, string>> = {
+  living: { en: "Living Room", zh: "客厅场景", de: "Wohnzimmer", fr: "Salon" },
+  original: { en: "Original Product", zh: "原始产品图", de: "Originalprodukt", fr: "Produit original" },
+  hotel: { en: "Hotel Suite", zh: "酒店套房", de: "Hotelsuite", fr: "Suite hôtelière" },
+  reception: { en: "Reception Lounge", zh: "接待休闲区", de: "Empfangslounge", fr: "Salon d'accueil" },
+};
 
 const faqs = [
   {
@@ -555,6 +683,37 @@ const faqsByLang: Record<Lang, typeof faqs> = {
     { q: "Les pièces peuvent-elles être personnalisées pour l'hôtellerie ?", a: "Oui. Dimensions, finitions, tissus, emballage et exigences projet peuvent être adaptés." },
     { q: "Quel est le délai moyen pour les grosses commandes ?", a: "Les produits disponibles expédient souvent en 3–6 semaines. La fabrication sur mesure prend généralement 8–14 semaines après validation." },
   ],
+};
+
+const quoteCopy: Record<Lang, { quote: string; people: { img: string; name: string; role: string }[] }> = {
+  en: {
+    quote: "Tessilo redefined our executive suites. Their ability to handle massive volume without sacrificing the fine details of custom upholstery is unmatched in the industry.",
+    people: [
+      { img: "avatar-voss.png", name: "Alexander Voss", role: "Principal, Voss Architect Studio" },
+      { img: "avatar-park.png", name: "Julianne Park", role: "Director of Operations, Grand Hyatt Group" },
+    ],
+  },
+  zh: {
+    quote: "Tessilo 让我们的高端办公套间焕然一新。他们在大批量交付中依然能保持定制软装细节，这一点非常难得。",
+    people: [
+      { img: "avatar-voss.png", name: "Alexander Voss", role: "Voss 建筑事务所负责人" },
+      { img: "avatar-park.png", name: "Julianne Park", role: "Grand Hyatt 集团运营总监" },
+    ],
+  },
+  de: {
+    quote: "Tessilo hat unsere Executive Suites neu definiert. Große Mengen ohne Verlust feiner Polsterdetails zu liefern, ist in der Branche selten.",
+    people: [
+      { img: "avatar-voss.png", name: "Alexander Voss", role: "Inhaber, Voss Architect Studio" },
+      { img: "avatar-park.png", name: "Julianne Park", role: "Operations Director, Grand Hyatt Group" },
+    ],
+  },
+  fr: {
+    quote: "Tessilo a transformé nos suites de direction. Leur capacité à livrer de gros volumes sans perdre les détails du sur-mesure est remarquable.",
+    people: [
+      { img: "avatar-voss.png", name: "Alexander Voss", role: "Fondateur, Voss Architect Studio" },
+      { img: "avatar-park.png", name: "Julianne Park", role: "Directrice des opérations, Grand Hyatt Group" },
+    ],
+  },
 };
 
 const socialLinks = [
@@ -738,11 +897,11 @@ function Categories({ lang }: { lang: Lang }) {
       </div>
       <div className="category-grid">
         {categories.map((item) => (
-          <article className="category-card" key={item.title}>
+          <article className="category-card" key={item.key}>
             <img src={`${A}${item.image}`} alt="" />
             <div>
-              <h3>{item.title}</h3>
-              <p>{item.copy}</p>
+              <h3>{categoryCards[item.key][lang].title}</h3>
+              <p>{categoryCards[item.key][lang].copy}</p>
             </div>
           </article>
         ))}
@@ -762,11 +921,11 @@ function Advantage({ lang }: { lang: Lang }) {
         <p>{copy.advantageCopy}</p>
       </div>
       <div className="stats-grid">
-        {stats.map(([number, label, copy]) => (
-          <article className="stat-card" key={label}>
+        {stats.map(([number, key]) => (
+          <article className="stat-card" key={key}>
             <strong>{number}</strong>
-            <h3>{label}</h3>
-            <p>{copy}</p>
+            <h3>{statsCopy[key][lang].label}</h3>
+            <p>{statsCopy[key][lang].copy}</p>
           </article>
         ))}
       </div>
@@ -796,6 +955,21 @@ function productLabel(product: Product, lang: Lang) {
   return productCopy[product.name]?.[lang] ?? { name: product.name, spec: product.spec, category: product.category };
 }
 
+function productPrice(product: Product, lang: Lang) {
+  const unitByProduct: Record<string, Record<Lang, string>> = {
+    "Nested Round Coffee Tables": { en: "set", zh: "套", de: "Set", fr: "ensemble" },
+    "Leather Dining Chairs": { en: "2 pcs", zh: "2 把", de: "2 Stk.", fr: "2 pcs" },
+  };
+  const unit = unitByProduct[product.name]?.[lang] ?? {
+    en: "unit",
+    zh: "件",
+    de: "Stück",
+    fr: "unité",
+  }[lang];
+
+  return `€${product.unitPrice.toLocaleString("en-US", { maximumFractionDigits: 2 })} / ${unit}`;
+}
+
 function ProductCard({ product, lang }: { product: Product; lang: Lang }) {
   const copy = ui[lang];
   const label = productLabel(product, lang);
@@ -808,13 +982,13 @@ function ProductCard({ product, lang }: { product: Product; lang: Lang }) {
       <div className="product-body">
         <span>{label.spec}</span>
         <h3>{label.name}</h3>
-        <p className="price-line">{product.price}</p>
+        <p className="price-line">{productPrice(product, lang)}</p>
         <p>{product.logistics.replace("Logistics", copy.logistics)}</p>
         {product.note ? <strong className="negotiable-badge">{copy.negotiable}</strong> : null}
       </div>
       <div className="product-action">
         <a className="button outline" href="#quote">{copy.requestQuote}</a>
-        <a className="whatsapp-mini" href={WHATSAPP_URL} target="_blank" rel="noreferrer">WhatsApp</a>
+        <a className="whatsapp-mini" href={WHATSAPP_URL} target="_blank" rel="noreferrer">{copy.whatsappShort}</a>
       </div>
     </article>
   );
@@ -830,11 +1004,11 @@ function Process({ lang }: { lang: Lang }) {
         <h2>{copy.workflowTitle}</h2>
       </div>
       <div className="step-grid">
-        {steps.map(([num, title, copy]) => (
+        {steps.map(([num, key]) => (
           <article className="step" key={num}>
             <div><strong>{num}</strong><span /></div>
-            <h3>{title}</h3>
-            <p>{copy}</p>
+            <h3>{stepsCopy[key][lang].title}</h3>
+            <p>{stepsCopy[key][lang].copy}</p>
           </article>
         ))}
       </div>
@@ -843,25 +1017,24 @@ function Process({ lang }: { lang: Lang }) {
 }
 
 function Testimonials({ lang }: { lang: Lang }) {
+  const testimonials = quoteCopy[lang];
+
   return (
     <section className="section testimonials">
       <Eyebrow>{ui[lang].testimonials}</Eyebrow>
       <div className="testimonial-grid">
-        <Quote img="avatar-voss.png" name="Alexander Voss" role="Principal, Voss Architect Studio" />
-        <Quote img="avatar-park.png" name="Julianne Park" role="Director of Operations, Grand Hyatt Group" />
+        {testimonials.people.map((person) => (
+          <Quote key={person.name} img={person.img} name={person.name} role={person.role} quote={testimonials.quote} />
+        ))}
       </div>
     </section>
   );
 }
 
-function Quote({ img, name, role }: { img: string; name: string; role: string }) {
+function Quote({ img, name, role, quote }: { img: string; name: string; role: string; quote: string }) {
   return (
     <article className="quote-card">
-      <p>
-        “Tessilo redefined our executive suites. Their ability to handle massive
-        volume without sacrificing the fine details of custom upholstery is
-        unmatched in the industry.”
-      </p>
+      <p>“{quote}”</p>
       <div className="person">
         <img src={`${A}${img}`} alt="" />
         <div>
@@ -883,12 +1056,12 @@ function GlobalReach({ lang }: { lang: Lang }) {
         <h2>{copy.reachTitle}</h2>
         <p>{copy.reachCopy}</p>
         <div className="reach-stats">
-          <strong>50+<span>Countries</span></strong>
-          <strong>500+<span>Partners</span></strong>
-          <strong>15+<span>Years</span></strong>
+          <strong>50+<span>{copy.reachStats[0]}</span></strong>
+          <strong>500+<span>{copy.reachStats[1]}</span></strong>
+          <strong>15+<span>{copy.reachStats[2]}</span></strong>
         </div>
         <div className="regions">
-          {["North America", "European Union", "Middle East", "Southeast Asia"].map((region) => (
+          {copy.regions.map((region: string) => (
             <span key={region}>{region}</span>
           ))}
         </div>
@@ -996,7 +1169,7 @@ function ProductDetail({ lang }: { lang: Lang }) {
       <div className="breadcrumb">{copy.breadcrumbHome} / {categoryCopy["Living Room"][lang]} / <b>{copy.detailTitle}</b></div>
       <div className="detail-layout">
         <div className="detail-gallery">
-          <img className="detail-main-image" src={`${A}${detailImages[activeImage]}`} alt="Nested round coffee tables" />
+          <img className="detail-main-image" src={`${A}${detailImages[activeImage]}`} alt={copy.detailTitle} />
           <div className="detail-thumbs">
             {detailImages.map((image, index) => (
               <button className={index === activeImage ? "is-active" : ""} type="button" key={image} onClick={() => setActiveImage(index)}>
@@ -1008,16 +1181,16 @@ function ProductDetail({ lang }: { lang: Lang }) {
         <div className="detail-copy">
           <span>{copy.detailCollection}</span>
           <h2>{copy.detailTitle}</h2>
-          <strong>€40 / set · {copy.logistics} €12.59</strong>
+          <strong>{productPrice(listing[1], lang)} · {copy.logistics} €12.59</strong>
           <div className="detail-divider" />
           <div className="finish-picker">
-            <p>{copy.sceneRender}: <b>{finishOptions[activeFinish].name}</b></p>
+            <p>{copy.sceneRender}: <b>{sceneCopy[finishOptions[activeFinish].key][lang]}</b></p>
             <div>
               {finishOptions.map((finish, index) => (
                 <button
-                  aria-label={finish.name}
+                  aria-label={sceneCopy[finish.key][lang]}
                   className={index === activeFinish ? "is-active" : ""}
-                  key={finish.name}
+                  key={finish.key}
                   style={{ background: finish.color }}
                   type="button"
                   onClick={() => {
@@ -1114,26 +1287,26 @@ function Cta({ lang }: { lang: Lang }) {
           const form = event.currentTarget;
           const data = new FormData(form);
           const body = [
-            "Tessilo B2B inquiry",
+            copy.mailTitle,
             "",
-            `Product: ${data.get("product") ?? ""}`,
-            `Quantity: ${data.get("quantity") ?? ""}`,
-            `Business email: ${data.get("email") ?? ""}`,
+            `${copy.mailProduct}: ${data.get("product") ?? ""}`,
+            `${copy.mailQuantity}: ${data.get("quantity") ?? ""}`,
+            `${copy.mailEmail}: ${data.get("email") ?? ""}`,
             "",
-            `Project notes: ${data.get("message") ?? ""}`,
+            `${copy.mailNotes}: ${data.get("message") ?? ""}`,
           ].join("\n");
-          window.location.href = `mailto:${INQUIRY_EMAIL}?subject=${encodeURIComponent("Tessilo B2B Inquiry")}&body=${encodeURIComponent(body)}`;
+          window.location.href = `mailto:${INQUIRY_EMAIL}?subject=${encodeURIComponent(copy.mailSubject)}&body=${encodeURIComponent(body)}`;
           setSubmitted(true);
         }}
       >
         <select name="product" required defaultValue="" aria-label={copy.productPlaceholder}>
           <option value="" disabled>{copy.productPlaceholder}</option>
           {listing.map((product) => (
-            <option value={product.name} key={product.name}>{productLabel(product, lang).name} · {product.price}</option>
+            <option value={product.name} key={product.name}>{productLabel(product, lang).name} · {productPrice(product, lang)}</option>
           ))}
         </select>
         <input name="quantity" type="number" min="1" placeholder={copy.quantityPlaceholder} aria-label={copy.quantityPlaceholder} />
-        <input name="email" type="email" required placeholder={copy.emailPlaceholder} aria-label="Business email" />
+        <input name="email" type="email" required placeholder={copy.emailPlaceholder} aria-label={copy.mailEmail} />
         <textarea name="message" placeholder={copy.messagePlaceholder} aria-label={copy.messagePlaceholder} rows={3} />
         <div className="quote-actions">
           <button className="button gold" type="submit">{submitted ? copy.submitted : copy.getStarted}</button>
@@ -1157,7 +1330,7 @@ function Footer({ lang }: { lang: Lang }) {
             <span>Tessilo</span>
           </a>
           <p>{copy.footerCopy}</p>
-          <div className="socials" aria-label="Tessilo social media">
+          <div className="socials" aria-label={copy.socialContact}>
             {socialLinks.map((item) => (
               <a href={item.href} key={item.platform} target="_blank" rel="noreferrer" aria-label={item.platform}>
                 {item.platform === "Instagram" ? "ig" : item.platform.slice(0, 2)}
@@ -1166,7 +1339,7 @@ function Footer({ lang }: { lang: Lang }) {
           </div>
         </div>
         <FooterColumn title={copy.nav.products} items={["Sofa", "Coffee", "Chair", "Desk", "Cabinet"].map((item) => productTypeCopy[item][lang])} />
-        <FooterColumn title={copy.company} items={[copy.aboutUs, copy.workflowTitle, "B2B Wholesale", copy.worldwide]} />
+        <FooterColumn title={copy.company} items={[copy.aboutUs, copy.workflowTitle, copy.b2bWholesale, copy.worldwide]} />
         <div className="footer-col social-column">
           <h3>{copy.socialContact}</h3>
           {socialLinks.map((item) => (
@@ -1178,7 +1351,7 @@ function Footer({ lang }: { lang: Lang }) {
         </div>
       </div>
       <div className="footer-bottom">
-        <span>© 2026 Tessilo Global Home. All rights reserved.</span>
+        <span>© 2026 Tessilo Global Home. {copy.rights}</span>
         <span>{copy.privacy}</span>
       </div>
     </footer>
