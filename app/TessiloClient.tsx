@@ -4,6 +4,15 @@ import { useMemo, useState } from "react";
 
 const A = "/assets/";
 
+type Lang = "en" | "zh" | "de" | "fr";
+
+const languages: { code: Lang; label: string }[] = [
+  { code: "en", label: "EN" },
+  { code: "zh", label: "中文" },
+  { code: "de", label: "DE" },
+  { code: "fr", label: "FR" },
+];
+
 type Product = {
   name: string;
   spec: string;
@@ -16,11 +25,250 @@ type Product = {
 };
 
 const navItems = [
-  ["Products", "#products"],
-  ["Solutions", "#solutions"],
-  ["About", "#about"],
-  ["Contact", "#contact"],
+  ["products", "#products"],
+  ["solutions", "#solutions"],
+  ["about", "#about"],
+  ["contact", "#contact"],
 ] as const;
+
+const ui = {
+  en: {
+    nav: { products: "Products", solutions: "Solutions", about: "About", contact: "Contact" },
+    aboutUs: "About Us",
+    requestQuote: "Request Quote",
+    heroEyebrow: "Tessilo Global Home",
+    heroTitle: "Furniture Solutions for Visionary Spaces",
+    heroCopy: "Specializing in premium contract manufacturing for the hospitality, commercial, and executive sectors worldwide.",
+    browseCatalog: "Browse Catalog",
+    ourSolutions: "Our Solutions",
+    collectionsEyebrow: "Our Collections",
+    collectionsTitle: "Crafted for performance and refined aesthetics.",
+    viewAll: "View all categories →",
+    advantageEyebrow: "The Tessilo Advantage",
+    advantageTitle: "Global Reach, Local Craftsmanship.",
+    advantageCopy: "We bridge the gap between grand architectural vision and functional, durable furniture delivery.",
+    signatureEyebrow: "Signature Pieces",
+    signatureTitle: "Engineered for Comfort & Style",
+    workflowEyebrow: "Our Workflow",
+    workflowTitle: "The Journey from Vision to Reality",
+    testimonials: "Client Testimonials",
+    worldwide: "Worldwide Logistics",
+    reachTitle: "Connecting the World of Design",
+    reachCopy: "Tessilo's global B2B presence bridges continents with precision logistics, trusted partnerships, and a commitment to timeless quality.",
+    exploreReach: "Explore global reach →",
+    breadcrumbHome: "Home",
+    collections: "Collections",
+    visible: "Excel items visible",
+    filters: "Filters",
+    categories: "Categories",
+    productType: "Product Type",
+    priceRange: "Price Range",
+    logistics: "Logistics",
+    negotiable: "Negotiatable",
+    detailCollection: "Living Room Collection",
+    detailTitle: "Nested Round Coffee Tables",
+    sceneRender: "Scene Render",
+    specs: "Specifications",
+    source: "SOURCE: TESSILO PRODUCT EXCEL",
+    requestPricing: "Request Pricing Quote",
+    downloadImage: "Download Product Image",
+    tabs: ["Description", "Specifications", "Shipping & Logistics"],
+    detailPanelTitle: "Compact tables for premium living and hospitality spaces",
+    detailDescription: "A nested coffee table set designed for flexible lounge styling, hotel suites, apartment living rooms, and small-space merchandising. The Excel source lists this item as 大小圆茶几 with a €40 unit price and €12.59 logistics fee.",
+    detailSpecs: "Two round tables, white stone-look surface, slim black circular metal base, suitable for coordinated living-room and hospitality packages.",
+    detailShipping: "Listed logistics fee is €12.59. For combined orders, Tessilo can quote consolidated shipping and B2B quantity pricing.",
+    related: "Complementary Pieces",
+    faqEyebrow: "B2B Support",
+    faqTitle: "Frequently Asked Questions",
+    ctaTitle: "Ready to Furnish Your Space?",
+    ctaCopy: "Join our waitlist for the 2026 contract collection or request a consultation today.",
+    emailPlaceholder: "Enter your business email...",
+    submitted: "Submitted",
+    getStarted: "Get Started",
+    formNote: "Thanks — our contract team will follow up shortly.",
+    footerCopy: "The Home of Comfort & Style. Global B2B leaders in premium contract furniture and architectural solutions.",
+    company: "Company",
+    socialContact: "Social & Contact",
+    privacy: "Privacy Policy · Terms of Service · Cookie Settings",
+  },
+  zh: {
+    nav: { products: "产品", solutions: "解决方案", about: "关于", contact: "联系" },
+    aboutUs: "关于我们",
+    requestQuote: "获取报价",
+    heroEyebrow: "Tessilo 环球家居",
+    heroTitle: "面向前瞻空间的家具解决方案",
+    heroCopy: "专注于酒店、商业与高端办公领域的优质 B2B 合同家具制造与供应。",
+    browseCatalog: "浏览产品",
+    ourSolutions: "解决方案",
+    collectionsEyebrow: "产品系列",
+    collectionsTitle: "兼具性能、舒适与精致美学。",
+    viewAll: "查看全部分类 →",
+    advantageEyebrow: "Tessilo 优势",
+    advantageTitle: "全球供应，本地化品质。",
+    advantageCopy: "我们连接空间设计愿景与稳定、耐用、可落地的家具交付。",
+    signatureEyebrow: "精选产品",
+    signatureTitle: "为舒适与风格而设计",
+    workflowEyebrow: "合作流程",
+    workflowTitle: "从需求到交付的完整路径",
+    testimonials: "客户反馈",
+    worldwide: "全球物流",
+    reachTitle: "连接全球设计与采购",
+    reachCopy: "Tessilo 通过精准物流、可靠合作伙伴和稳定品质，服务全球 B2B 家具项目。",
+    exploreReach: "了解全球交付 →",
+    breadcrumbHome: "首页",
+    collections: "系列",
+    visible: "个 Excel 产品可见",
+    filters: "筛选",
+    categories: "分类",
+    productType: "产品类型",
+    priceRange: "价格区间",
+    logistics: "物流费",
+    negotiable: "可议价",
+    detailCollection: "客厅系列",
+    detailTitle: "大小圆茶几",
+    sceneRender: "场景渲染",
+    specs: "规格",
+    source: "来源：TESSILO 产品 Excel",
+    requestPricing: "获取价格报价",
+    downloadImage: "下载产品图",
+    tabs: ["描述", "规格", "物流与运输"],
+    detailPanelTitle: "适合高端客厅与酒店空间的灵活茶几组合",
+    detailDescription: "大小圆茶几适合客厅、酒店套房、公寓与小空间陈列。Excel 源数据标注单价 €40，物流费 €12.59。",
+    detailSpecs: "双圆桌组合，白色石纹台面，黑色金属圆形框架，适合整体客厅与酒店家具配套。",
+    detailShipping: "该产品表内物流费为 €12.59。组合采购可按数量与合并运输重新报价。",
+    related: "搭配产品",
+    faqEyebrow: "B2B 支持",
+    faqTitle: "常见问题",
+    ctaTitle: "准备开始你的家具项目？",
+    ctaCopy: "加入 2026 合同家具系列候补名单，或立即咨询采购方案。",
+    emailPlaceholder: "请输入企业邮箱...",
+    submitted: "已提交",
+    getStarted: "开始咨询",
+    formNote: "谢谢，我们的合同家具团队会尽快联系你。",
+    footerCopy: "舒适与风格之家。面向全球 B2B 的高端合同家具与空间解决方案供应商。",
+    company: "公司",
+    socialContact: "社媒与联系",
+    privacy: "隐私政策 · 服务条款 · Cookie 设置",
+  },
+  de: {
+    nav: { products: "Produkte", solutions: "Lösungen", about: "Über uns", contact: "Kontakt" },
+    aboutUs: "Über uns",
+    requestQuote: "Angebot anfragen",
+    heroEyebrow: "Tessilo Global Home",
+    heroTitle: "Möbellösungen für visionäre Räume",
+    heroCopy: "Premium-Vertragsfertigung für Hospitality, Gewerbe und Executive-Bereiche weltweit.",
+    browseCatalog: "Katalog ansehen",
+    ourSolutions: "Unsere Lösungen",
+    collectionsEyebrow: "Kollektionen",
+    collectionsTitle: "Für Leistung und elegante Ästhetik gefertigt.",
+    viewAll: "Alle Kategorien ansehen →",
+    advantageEyebrow: "Der Tessilo Vorteil",
+    advantageTitle: "Globale Reichweite, lokale Handwerksqualität.",
+    advantageCopy: "Wir verbinden architektonische Visionen mit funktionaler, langlebiger Möbellieferung.",
+    signatureEyebrow: "Ausgewählte Stücke",
+    signatureTitle: "Für Komfort & Stil entwickelt",
+    workflowEyebrow: "Unser Ablauf",
+    workflowTitle: "Von der Vision bis zur Umsetzung",
+    testimonials: "Kundenstimmen",
+    worldwide: "Weltweite Logistik",
+    reachTitle: "Die Welt des Designs verbinden",
+    reachCopy: "Tessilo verbindet Kontinente mit präziser Logistik, verlässlichen Partnern und zeitloser Qualität.",
+    exploreReach: "Globale Reichweite entdecken →",
+    breadcrumbHome: "Startseite",
+    collections: "Kollektionen",
+    visible: "Excel-Artikel sichtbar",
+    filters: "Filter",
+    categories: "Kategorien",
+    productType: "Produkttyp",
+    priceRange: "Preisspanne",
+    logistics: "Logistik",
+    negotiable: "Verhandelbar",
+    detailCollection: "Wohnzimmerkollektion",
+    detailTitle: "Runde Satztische",
+    sceneRender: "Szenen-Rendering",
+    specs: "Spezifikationen",
+    source: "QUELLE: TESSILO PRODUKT-EXCEL",
+    requestPricing: "Preisangebot anfragen",
+    downloadImage: "Produktbild herunterladen",
+    tabs: ["Beschreibung", "Spezifikationen", "Versand & Logistik"],
+    detailPanelTitle: "Kompakte Tische für hochwertige Wohn- und Hospitality-Bereiche",
+    detailDescription: "Ein Satztisch-Set für flexible Lounge-Gestaltung, Hotelsuiten, Apartments und kompakte Verkaufsflächen. Laut Excel: €40 Stückpreis und €12,59 Logistikkosten.",
+    detailSpecs: "Zwei runde Tische, weiße Steinoptik, schlankes schwarzes Metallgestell, geeignet für Wohn- und Hospitality-Pakete.",
+    detailShipping: "Die gelistete Logistikgebühr beträgt €12,59. Für Sammelbestellungen bietet Tessilo konsolidierte Versand- und Mengenpreise.",
+    related: "Passende Stücke",
+    faqEyebrow: "B2B Support",
+    faqTitle: "Häufige Fragen",
+    ctaTitle: "Bereit, Ihren Raum einzurichten?",
+    ctaCopy: "Treten Sie der Warteliste für die Vertragskollektion 2026 bei oder fragen Sie eine Beratung an.",
+    emailPlaceholder: "Geschäftliche E-Mail eingeben...",
+    submitted: "Gesendet",
+    getStarted: "Starten",
+    formNote: "Danke — unser Vertragsteam meldet sich in Kürze.",
+    footerCopy: "The Home of Comfort & Style. Globale B2B-Experten für Premium-Vertragsmöbel und architektonische Lösungen.",
+    company: "Unternehmen",
+    socialContact: "Social & Kontakt",
+    privacy: "Datenschutz · Nutzungsbedingungen · Cookie-Einstellungen",
+  },
+  fr: {
+    nav: { products: "Produits", solutions: "Solutions", about: "À propos", contact: "Contact" },
+    aboutUs: "À propos",
+    requestQuote: "Demander un devis",
+    heroEyebrow: "Tessilo Global Home",
+    heroTitle: "Solutions mobilier pour espaces visionnaires",
+    heroCopy: "Fabrication contractuelle premium pour l'hôtellerie, les espaces commerciaux et les bureaux de direction.",
+    browseCatalog: "Voir le catalogue",
+    ourSolutions: "Nos solutions",
+    collectionsEyebrow: "Collections",
+    collectionsTitle: "Conçu pour la performance et une esthétique raffinée.",
+    viewAll: "Voir toutes les catégories →",
+    advantageEyebrow: "L'avantage Tessilo",
+    advantageTitle: "Portée mondiale, savoir-faire local.",
+    advantageCopy: "Nous relions la vision architecturale à une livraison mobilier fonctionnelle et durable.",
+    signatureEyebrow: "Pièces signature",
+    signatureTitle: "Conçu pour le confort et le style",
+    workflowEyebrow: "Notre processus",
+    workflowTitle: "Du concept à la réalisation",
+    testimonials: "Témoignages clients",
+    worldwide: "Logistique mondiale",
+    reachTitle: "Connecter le monde du design",
+    reachCopy: "La présence B2B mondiale de Tessilo relie les continents avec précision logistique, partenaires fiables et qualité durable.",
+    exploreReach: "Explorer la portée mondiale →",
+    breadcrumbHome: "Accueil",
+    collections: "Collections",
+    visible: "articles Excel visibles",
+    filters: "Filtres",
+    categories: "Catégories",
+    productType: "Type de produit",
+    priceRange: "Fourchette de prix",
+    logistics: "Logistique",
+    negotiable: "Négociable",
+    detailCollection: "Collection salon",
+    detailTitle: "Tables basses rondes gigognes",
+    sceneRender: "Rendu de scène",
+    specs: "Spécifications",
+    source: "SOURCE : EXCEL PRODUITS TESSILO",
+    requestPricing: "Demander un prix",
+    downloadImage: "Télécharger l'image produit",
+    tabs: ["Description", "Spécifications", "Expédition & logistique"],
+    detailPanelTitle: "Tables compactes pour espaces résidentiels et hôteliers premium",
+    detailDescription: "Un ensemble de tables gigognes pour salons, suites hôtelières, appartements et petits espaces. La source Excel indique un prix unitaire de €40 et €12,59 de logistique.",
+    detailSpecs: "Deux tables rondes, plateau effet pierre blanche, structure circulaire en métal noir, adaptées aux projets résidentiels et hôteliers.",
+    detailShipping: "Les frais logistiques listés sont de €12,59. Pour les commandes groupées, Tessilo peut proposer transport consolidé et prix B2B.",
+    related: "Pièces complémentaires",
+    faqEyebrow: "Support B2B",
+    faqTitle: "Questions fréquentes",
+    ctaTitle: "Prêt à meubler votre espace ?",
+    ctaCopy: "Rejoignez la liste d'attente de la collection contract 2026 ou demandez une consultation.",
+    emailPlaceholder: "Entrez votre e-mail professionnel...",
+    submitted: "Envoyé",
+    getStarted: "Commencer",
+    formNote: "Merci — notre équipe contract vous contactera rapidement.",
+    footerCopy: "The Home of Comfort & Style. Expert B2B mondial du mobilier contract premium et des solutions architecturales.",
+    company: "Entreprise",
+    socialContact: "Réseaux & contact",
+    privacy: "Confidentialité · Conditions d'utilisation · Paramètres des cookies",
+  },
+} satisfies Record<Lang, Record<string, any>>;
 
 const categories = [
   {
@@ -135,6 +383,89 @@ const listing: Product[] = [
   },
 ];
 
+const productCopy: Record<string, Record<Lang, { name: string; spec: string; category: string }>> = {
+  "Storage Corner Sofa": {
+    en: { name: "Storage Corner Sofa", spec: "2.45m corner sofa with storage", category: "Living Room" },
+    zh: { name: "储物转角沙发", spec: "2.45 米带储物转角沙发", category: "客厅" },
+    de: { name: "Ecksofa mit Stauraum", spec: "2,45 m Ecksofa mit Stauraum", category: "Wohnzimmer" },
+    fr: { name: "Canapé d'angle avec rangement", spec: "Canapé d'angle 2,45 m avec rangement", category: "Salon" },
+  },
+  "Nested Round Coffee Tables": {
+    en: { name: "Nested Round Coffee Tables", spec: "Large + small round coffee table set", category: "Living Room" },
+    zh: { name: "大小圆茶几", spec: "大小圆茶几组合", category: "客厅" },
+    de: { name: "Runde Satztische", spec: "Großes + kleines rundes Couchtisch-Set", category: "Wohnzimmer" },
+    fr: { name: "Tables basses rondes gigognes", spec: "Ensemble grande + petite table basse ronde", category: "Salon" },
+  },
+  "L-Shaped Office Desk": {
+    en: { name: "L-Shaped Office Desk", spec: "Corner workstation desk", category: "Office" },
+    zh: { name: "转角办公桌", spec: "L 型转角办公桌", category: "办公" },
+    de: { name: "L-förmiger Schreibtisch", spec: "Eck-Arbeitsplatz", category: "Büro" },
+    fr: { name: "Bureau d'angle", spec: "Bureau de travail en L", category: "Bureau" },
+  },
+  "Low TV Cabinet": {
+    en: { name: "Low TV Cabinet", spec: "1.7m TV cabinet", category: "Living Room" },
+    zh: { name: "电视柜", spec: "1.7 米电视柜", category: "客厅" },
+    de: { name: "Lowboard TV-Schrank", spec: "1,7 m TV-Schrank", category: "Wohnzimmer" },
+    fr: { name: "Meuble TV bas", spec: "Meuble TV 1,7 m", category: "Salon" },
+  },
+  "Leather Dining Chairs": {
+    en: { name: "Leather Dining Chairs", spec: "Two leather dining chairs", category: "Dining" },
+    zh: { name: "皮质餐椅", spec: "两把皮质座椅", category: "餐厅" },
+    de: { name: "Leder-Esszimmerstühle", spec: "Zwei Lederstühle", category: "Esszimmer" },
+    fr: { name: "Chaises de salle à manger en cuir", spec: "Deux chaises en cuir", category: "Salle à manger" },
+  },
+  "Swivel Office Chair": {
+    en: { name: "Swivel Office Chair", spec: "Rotating office chair", category: "Office" },
+    zh: { name: "旋转办公椅", spec: "旋转办公椅", category: "办公" },
+    de: { name: "Drehbarer Bürostuhl", spec: "Drehstuhl fürs Büro", category: "Büro" },
+    fr: { name: "Chaise de bureau pivotante", spec: "Chaise de bureau rotative", category: "Bureau" },
+  },
+  "One-Drawer Nightstand": {
+    en: { name: "One-Drawer Nightstand", spec: "Compact bedside cabinet", category: "Bedroom" },
+    zh: { name: "一抽床头柜", spec: "一抽床头柜", category: "卧室" },
+    de: { name: "Nachttisch mit Schublade", spec: "Kompakter Nachtschrank", category: "Schlafzimmer" },
+    fr: { name: "Table de chevet à un tiroir", spec: "Chevet compact", category: "Chambre" },
+  },
+  "Solid Wood Chest": {
+    en: { name: "Solid Wood Chest", spec: "Full solid wood drawer cabinet", category: "Storage" },
+    zh: { name: "全实木斗柜", spec: "全实木斗柜", category: "收纳" },
+    de: { name: "Massivholz-Kommode", spec: "Schubladenschrank aus Massivholz", category: "Stauraum" },
+    fr: { name: "Commode en bois massif", spec: "Commode à tiroirs en bois massif", category: "Rangement" },
+  },
+  "Fabric Sofa Bed": {
+    en: { name: "Fabric Sofa Bed", spec: "1.6m fabric sofa bed", category: "Living Room" },
+    zh: { name: "布艺沙发床", spec: "1.6 米布艺沙发床", category: "客厅" },
+    de: { name: "Stoff-Schlafsofa", spec: "1,6 m Schlafsofa aus Stoff", category: "Wohnzimmer" },
+    fr: { name: "Canapé-lit en tissu", spec: "Canapé-lit tissu 1,6 m", category: "Salon" },
+  },
+};
+
+const categoryCopy: Record<string, Record<Lang, string>> = {
+  "Living Room": { en: "Living Room", zh: "客厅", de: "Wohnzimmer", fr: "Salon" },
+  Office: { en: "Office", zh: "办公", de: "Büro", fr: "Bureau" },
+  Dining: { en: "Dining", zh: "餐厅", de: "Esszimmer", fr: "Salle à manger" },
+  Bedroom: { en: "Bedroom", zh: "卧室", de: "Schlafzimmer", fr: "Chambre" },
+  Storage: { en: "Storage", zh: "收纳", de: "Stauraum", fr: "Rangement" },
+};
+
+const productTypeCopy: Record<string, Record<Lang, string>> = {
+  Sofa: { en: "Sofa", zh: "沙发", de: "Sofa", fr: "Canapé" },
+  Coffee: { en: "Coffee", zh: "茶几", de: "Couchtisch", fr: "Table basse" },
+  Chair: { en: "Chair", zh: "椅子", de: "Stuhl", fr: "Chaise" },
+  Desk: { en: "Desk", zh: "桌", de: "Schreibtisch", fr: "Bureau" },
+  Cabinet: { en: "Cabinet", zh: "柜", de: "Schrank", fr: "Meuble" },
+  Bed: { en: "Bed", zh: "床", de: "Bett", fr: "Lit" },
+};
+
+const productSearchTerms: Record<string, string[]> = {
+  Sofa: ["sofa", "沙发", "canapé", "schlafsofa"],
+  Coffee: ["coffee", "茶几", "couchtisch", "table basse"],
+  Chair: ["chair", "椅", "stuhl", "chaise"],
+  Desk: ["desk", "办公桌", "schreibtisch", "bureau"],
+  Cabinet: ["cabinet", "柜", "schrank", "meuble", "commode"],
+  Bed: ["bed", "床", "bett", "lit"],
+};
+
 const stats = [
   ["50+", "Countries", "Global shipping & logistics network."],
   ["15+", "Years", "Of industry-leading furniture expertise."],
@@ -182,6 +513,28 @@ const faqs = [
   },
 ];
 
+const faqsByLang: Record<Lang, typeof faqs> = {
+  en: faqs,
+  zh: [
+    { q: "B2B 项目的起订量是多少？", a: "常规现货产品通常 20 件起订。定制项目会根据产品、包装和运输方式单独报价。" },
+    { q: "是否支持全球运输？", a: "支持。Tessilo 可协助国际货运、清关资料、合并运输和项目交付安排。" },
+    { q: "酒店或商业项目可以定制吗？", a: "可以。我们支持尺寸、饰面、面料、包装和项目规格定制。" },
+    { q: "大货订单一般交期多久？", a: "现货产品通常 3–6 周发货。定制生产一般在确认后 8–14 周，视项目复杂度而定。" },
+  ],
+  de: [
+    { q: "Wie hoch ist die Mindestbestellmenge für B2B-Projekte?", a: "Für Standardartikel gilt in der Regel eine Mindestmenge von 20 Stück. Sonderanfertigungen werden projektbezogen kalkuliert." },
+    { q: "Bieten Sie weltweiten Versand an?", a: "Ja. Tessilo unterstützt internationale Fracht, Zolldokumente, konsolidierten Versand und Projektlieferungen." },
+    { q: "Können Produkte für Hospitality-Projekte angepasst werden?", a: "Ja. Maße, Oberflächen, Bezugsstoffe, Verpackung und projektspezifische Spezifikationen können angepasst werden." },
+    { q: "Wie lang ist die durchschnittliche Lieferzeit?", a: "Lagerprogramme versenden meist in 3–6 Wochen. Sonderanfertigungen benötigen typischerweise 8–14 Wochen nach Freigabe." },
+  ],
+  fr: [
+    { q: "Quel est le MOQ pour les projets B2B ?", a: "Le MOQ standard est généralement de 20 pièces pour les articles disponibles. Les projets sur mesure sont chiffrés selon les spécifications." },
+    { q: "Proposez-vous une livraison internationale ?", a: "Oui. Tessilo accompagne le fret international, les documents douaniers, le transport consolidé et la livraison projet." },
+    { q: "Les pièces peuvent-elles être personnalisées pour l'hôtellerie ?", a: "Oui. Dimensions, finitions, tissus, emballage et exigences projet peuvent être adaptés." },
+    { q: "Quel est le délai moyen pour les grosses commandes ?", a: "Les produits disponibles expédient souvent en 3–6 semaines. La fabrication sur mesure prend généralement 8–14 semaines après validation." },
+  ],
+};
+
 const socialLinks = [
   {
     platform: "TikTok",
@@ -220,29 +573,32 @@ const socialLinks = [
 ];
 
 export default function TessiloClient() {
+  const [lang, setLang] = useState<Lang>("en");
+
   return (
     <>
-      <Header />
+      <Header lang={lang} setLang={setLang} />
       <main>
-        <Hero />
-        <Categories />
-        <Advantage />
-        <Featured />
-        <Process />
-        <Testimonials />
-        <GlobalReach />
-        <ProductListing />
-        <ProductDetail />
-        <Faq />
-        <Cta />
+        <Hero lang={lang} />
+        <Categories lang={lang} />
+        <Advantage lang={lang} />
+        <Featured lang={lang} />
+        <Process lang={lang} />
+        <Testimonials lang={lang} />
+        <GlobalReach lang={lang} />
+        <ProductListing lang={lang} />
+        <ProductDetail lang={lang} />
+        <Faq lang={lang} />
+        <Cta lang={lang} />
       </main>
-      <Footer />
+      <Footer lang={lang} />
     </>
   );
 }
 
-function Header() {
+function Header({ lang, setLang }: { lang: Lang; setLang: (lang: Lang) => void }) {
   const [open, setOpen] = useState(false);
+  const copy = ui[lang];
 
   return (
     <>
@@ -252,11 +608,11 @@ function Header() {
           <span>Tessilo</span>
         </a>
         <nav className="desktop-nav" aria-label="Primary navigation">
-          {navItems.map(([label, href]) => (
-            <a href={href} key={label}>{label}</a>
+          {navItems.map(([key, href]) => (
+            <a href={href} key={key}>{copy.nav[key]}</a>
           ))}
-          <button className="lang" type="button">EN⌄</button>
-          <a className="button gold" href="#quote">Request Quote</a>
+          <LanguageSwitcher lang={lang} setLang={setLang} />
+          <a className="button gold" href="#quote">{copy.requestQuote}</a>
         </nav>
         <button
           className={`menu ${open ? "is-open" : ""}`}
@@ -270,12 +626,31 @@ function Header() {
           <span />
         </button>
       </header>
-      <MobileNavOverlay open={open} onClose={() => setOpen(false)} />
+      <MobileNavOverlay open={open} onClose={() => setOpen(false)} lang={lang} setLang={setLang} />
     </>
   );
 }
 
-function MobileNavOverlay({ open, onClose }: { open: boolean; onClose: () => void }) {
+function LanguageSwitcher({ lang, setLang }: { lang: Lang; setLang: (lang: Lang) => void }) {
+  return (
+    <div className="lang-switcher" aria-label="Language selector">
+      {languages.map((item) => (
+        <button
+          className={item.code === lang ? "is-active" : ""}
+          type="button"
+          key={item.code}
+          onClick={() => setLang(item.code)}
+        >
+          {item.label}
+        </button>
+      ))}
+    </div>
+  );
+}
+
+function MobileNavOverlay({ open, onClose, lang, setLang }: { open: boolean; onClose: () => void; lang: Lang; setLang: (lang: Lang) => void }) {
+  const copy = ui[lang];
+
   return (
     <div className={`mobile-overlay ${open ? "is-open" : ""}`} aria-hidden={!open}>
       <div className="mobile-panel" role="dialog" aria-modal="true" aria-label="Mobile navigation">
@@ -284,52 +659,60 @@ function MobileNavOverlay({ open, onClose }: { open: boolean; onClose: () => voi
           <button type="button" onClick={onClose} aria-label="Close menu">✕</button>
         </div>
         <nav className="mobile-panel-links">
-          {navItems.map(([label, href], index) => (
-            <a href={href} key={label} onClick={onClose} style={{ transitionDelay: `${index * 45}ms` }}>
-              {label === "About" ? "About Us" : label}
+          {navItems.map(([key, href], index) => (
+            <a href={href} key={key} onClick={onClose} style={{ transitionDelay: `${index * 45}ms` }}>
+              {key === "about" ? copy.aboutUs : copy.nav[key]}
             </a>
           ))}
         </nav>
         <div className="mobile-languages" aria-label="Language options">
-          <strong>EN</strong>
-          <span>中文</span>
-          <span>DE</span>
+          {languages.map((item) => (
+            <button
+              className={item.code === lang ? "is-active" : ""}
+              type="button"
+              key={item.code}
+              onClick={() => setLang(item.code)}
+            >
+              {item.label}
+            </button>
+          ))}
         </div>
-        <a className="button gold mobile-quote" href="#quote" onClick={onClose}>Request Quote</a>
+        <a className="button gold mobile-quote" href="#quote" onClick={onClose}>{copy.requestQuote}</a>
       </div>
       <button className="mobile-scrim" aria-label="Close menu" type="button" onClick={onClose} />
     </div>
   );
 }
 
-function Hero() {
+function Hero({ lang }: { lang: Lang }) {
+  const copy = ui[lang];
+
   return (
     <section className="hero">
       <div className="hero-content reveal-up">
-        <Eyebrow light>Tessilo Global Home</Eyebrow>
-        <h1>Furniture Solutions for Visionary Spaces</h1>
-        <p>
-          Specializing in premium contract manufacturing for the hospitality,
-          commercial, and executive sectors worldwide.
-        </p>
+        <Eyebrow light>{copy.heroEyebrow}</Eyebrow>
+        <h1>{copy.heroTitle}</h1>
+        <p>{copy.heroCopy}</p>
         <div className="hero-actions">
-          <a className="button gold" href="#products">Browse Catalog</a>
-          <a className="button ghost-light" href="#solutions">Our Solutions</a>
+          <a className="button gold" href="#products">{copy.browseCatalog}</a>
+          <a className="button ghost-light" href="#solutions">{copy.ourSolutions}</a>
         </div>
       </div>
     </section>
   );
 }
 
-function Categories() {
+function Categories({ lang }: { lang: Lang }) {
+  const copy = ui[lang];
+
   return (
     <section className="section muted" id="solutions">
       <div className="section-heading split">
         <div>
-          <Eyebrow>Our Collections</Eyebrow>
-          <h2>Crafted for performance and refined aesthetics.</h2>
+          <Eyebrow>{copy.collectionsEyebrow}</Eyebrow>
+          <h2>{copy.collectionsTitle}</h2>
         </div>
-        <a className="text-link" href="#products">View all categories →</a>
+        <a className="text-link" href="#products">{copy.viewAll}</a>
       </div>
       <div className="category-grid">
         {categories.map((item) => (
@@ -346,16 +729,15 @@ function Categories() {
   );
 }
 
-function Advantage() {
+function Advantage({ lang }: { lang: Lang }) {
+  const copy = ui[lang];
+
   return (
     <section className="section advantage" id="about">
       <div className="advantage-copy">
-        <Eyebrow>The Tessilo Advantage</Eyebrow>
-        <h2>Global Reach, Local Craftsmanship.</h2>
-        <p>
-          We bridge the gap between grand architectural vision and functional,
-          durable furniture delivery.
-        </p>
+        <Eyebrow>{copy.advantageEyebrow}</Eyebrow>
+        <h2>{copy.advantageTitle}</h2>
+        <p>{copy.advantageCopy}</p>
       </div>
       <div className="stats-grid">
         {stats.map(([number, label, copy]) => (
@@ -370,47 +752,59 @@ function Advantage() {
   );
 }
 
-function Featured() {
+function Featured({ lang }: { lang: Lang }) {
+  const copy = ui[lang];
+
   return (
     <section className="section" id="products">
       <div className="section-heading centered">
-        <Eyebrow>Signature Pieces</Eyebrow>
-        <h2>Engineered for Comfort &amp; Style</h2>
+        <Eyebrow>{copy.signatureEyebrow}</Eyebrow>
+        <h2>{copy.signatureTitle}</h2>
       </div>
       <div className="product-row">
         {featured.map((product) => (
-          <ProductCard product={product} key={product.name} />
+          <ProductCard product={product} lang={lang} key={product.name} />
         ))}
       </div>
     </section>
   );
 }
 
-function ProductCard({ product }: { product: Product }) {
+function productLabel(product: Product, lang: Lang) {
+  return productCopy[product.name]?.[lang] ?? { name: product.name, spec: product.spec, category: product.category };
+}
+
+function ProductCard({ product, lang }: { product: Product; lang: Lang }) {
+  const copy = ui[lang];
+  const label = productLabel(product, lang);
+
   return (
     <article className="product-card">
       <div className="product-image">
-        <img src={`${A}${product.image}`} alt={product.name} />
+        <img src={`${A}${product.image}`} alt={label.name} />
       </div>
       <div className="product-body">
-        <span>{product.spec}</span>
-        <h3>{product.name}</h3>
+        <span>{label.spec}</span>
+        <h3>{label.name}</h3>
         <p className="price-line">{product.price}</p>
-        <p>{product.logistics}{product.note ? ` · ${product.note}` : ""}</p>
+        <p>{product.logistics.replace("Logistics", copy.logistics)}</p>
+        {product.note ? <strong className="negotiable-badge">{copy.negotiable}</strong> : null}
       </div>
       <div className="product-action">
-        <a className="button outline" href="#quote">Request Quote</a>
+        <a className="button outline" href="#quote">{copy.requestQuote}</a>
       </div>
     </article>
   );
 }
 
-function Process() {
+function Process({ lang }: { lang: Lang }) {
+  const copy = ui[lang];
+
   return (
     <section className="section muted process">
       <div className="section-heading">
-        <Eyebrow>Our Workflow</Eyebrow>
-        <h2>The Journey from Vision to Reality</h2>
+        <Eyebrow>{copy.workflowEyebrow}</Eyebrow>
+        <h2>{copy.workflowTitle}</h2>
       </div>
       <div className="step-grid">
         {steps.map(([num, title, copy]) => (
@@ -425,10 +819,10 @@ function Process() {
   );
 }
 
-function Testimonials() {
+function Testimonials({ lang }: { lang: Lang }) {
   return (
     <section className="section testimonials">
-      <Eyebrow>Client Testimonials</Eyebrow>
+      <Eyebrow>{ui[lang].testimonials}</Eyebrow>
       <div className="testimonial-grid">
         <Quote img="avatar-voss.png" name="Alexander Voss" role="Principal, Voss Architect Studio" />
         <Quote img="avatar-park.png" name="Julianne Park" role="Director of Operations, Grand Hyatt Group" />
@@ -456,16 +850,15 @@ function Quote({ img, name, role }: { img: string; name: string; role: string })
   );
 }
 
-function GlobalReach() {
+function GlobalReach({ lang }: { lang: Lang }) {
+  const copy = ui[lang];
+
   return (
     <section className="global-reach">
       <div className="reach-card">
-        <Eyebrow>Worldwide Logistics</Eyebrow>
-        <h2>Connecting the World of Design</h2>
-        <p>
-          Tessilo&apos;s global B2B presence bridges continents with precision
-          logistics, trusted partnerships, and a commitment to timeless quality.
-        </p>
+        <Eyebrow>{copy.worldwide}</Eyebrow>
+        <h2>{copy.reachTitle}</h2>
+        <p>{copy.reachCopy}</p>
         <div className="reach-stats">
           <strong>50+<span>Countries</span></strong>
           <strong>500+<span>Partners</span></strong>
@@ -476,40 +869,44 @@ function GlobalReach() {
             <span key={region}>{region}</span>
           ))}
         </div>
-        <a className="button pill" href="#contact">Explore global reach →</a>
+        <a className="button pill" href="#contact">{copy.exploreReach}</a>
       </div>
     </section>
   );
 }
 
-function ProductListing() {
+function ProductListing({ lang }: { lang: Lang }) {
   const [activeCategories, setActiveCategories] = useState<string[]>([]);
   const [activeMaterials, setActiveMaterials] = useState<string[]>([]);
   const [maxPrice, setMaxPrice] = useState(320);
+  const copy = ui[lang];
 
   const visibleProducts = useMemo(() => {
     return listing.filter((product) => {
       const categoryMatch = activeCategories.length === 0 || activeCategories.includes(product.category ?? "");
-      const searchable = `${product.spec} ${product.name}`.toLowerCase();
-      const materialMatch = activeMaterials.length === 0 || activeMaterials.some((material) => searchable.includes(material.toLowerCase()));
+      const localized = productLabel(product, lang);
+      const searchable = `${product.spec} ${product.name} ${localized.spec} ${localized.name}`.toLowerCase();
+      const materialMatch = activeMaterials.length === 0 || activeMaterials.some((material) => {
+        return productSearchTerms[material].some((term) => searchable.includes(term.toLowerCase()));
+      });
       const priceMatch = product.unitPrice <= maxPrice;
       return categoryMatch && materialMatch && priceMatch;
     });
-  }, [activeCategories, activeMaterials, maxPrice]);
+  }, [activeCategories, activeMaterials, maxPrice, lang]);
 
   return (
     <section className="listing" aria-label="Product listing preview">
       <div className="listing-top">
-        <span>Home / <b>Collections</b></span>
-        <h2>Our Collections</h2>
-        <p>{visibleProducts.length} of {listing.length} Excel items visible</p>
+        <span>{copy.breadcrumbHome} / <b>{copy.collections}</b></span>
+        <h2>{copy.collectionsEyebrow}</h2>
+        <p>{visibleProducts.length} / {listing.length} {copy.visible}</p>
       </div>
       <div className="listing-layout">
-        <aside className="filters" aria-label="Filters">
-          <FilterGroup title="Categories" items={["Living Room", "Office", "Dining", "Bedroom", "Storage"]} selected={activeCategories} onChange={setActiveCategories} />
-          <FilterGroup title="Product Type" items={["Sofa", "Coffee", "Chair", "Desk", "Cabinet", "Bed"]} selected={activeMaterials} onChange={setActiveMaterials} />
+        <aside className="filters" aria-label={copy.filters}>
+          <FilterGroup title={copy.categories} items={["Living Room", "Office", "Dining", "Bedroom", "Storage"]} labels={categoryCopy} lang={lang} selected={activeCategories} onChange={setActiveCategories} />
+          <FilterGroup title={copy.productType} items={["Sofa", "Coffee", "Chair", "Desk", "Cabinet", "Bed"]} labels={productTypeCopy} lang={lang} selected={activeMaterials} onChange={setActiveMaterials} />
           <div className="filter-group">
-            <h3>Price Range</h3>
+            <h3>{copy.priceRange}</h3>
             <label className="range-control">
               <input
                 type="range"
@@ -524,7 +921,7 @@ function ProductListing() {
           </div>
         </aside>
         <div className="listing-grid">
-          {visibleProducts.map((product) => <ProductCard product={product} key={product.name} />)}
+          {visibleProducts.map((product) => <ProductCard product={product} lang={lang} key={product.name} />)}
         </div>
       </div>
     </section>
@@ -534,11 +931,15 @@ function ProductListing() {
 function FilterGroup({
   title,
   items,
+  labels,
+  lang,
   selected,
   onChange,
 }: {
   title: string;
   items: string[];
+  labels: Record<string, Record<Lang, string>>;
+  lang: Lang;
   selected: string[];
   onChange: (items: string[]) => void;
 }) {
@@ -554,21 +955,22 @@ function FilterGroup({
               onChange(selected.includes(item) ? selected.filter((value) => value !== item) : [...selected, item]);
             }}
           />
-          {item}
+          {labels[item]?.[lang] ?? item}
         </label>
       ))}
     </div>
   );
 }
 
-function ProductDetail() {
+function ProductDetail({ lang }: { lang: Lang }) {
   const [activeImage, setActiveImage] = useState(0);
   const [activeFinish, setActiveFinish] = useState(0);
-  const [activeTab, setActiveTab] = useState("Description");
+  const [activeTab, setActiveTab] = useState(0);
+  const copy = ui[lang];
 
   return (
     <section className="product-detail" id="detail">
-      <div className="breadcrumb">Home / Living Room / <b>Nested Round Coffee Tables</b></div>
+      <div className="breadcrumb">{copy.breadcrumbHome} / {categoryCopy["Living Room"][lang]} / <b>{copy.detailTitle}</b></div>
       <div className="detail-layout">
         <div className="detail-gallery">
           <img className="detail-main-image" src={`${A}${detailImages[activeImage]}`} alt="Nested round coffee tables" />
@@ -581,12 +983,12 @@ function ProductDetail() {
           </div>
         </div>
         <div className="detail-copy">
-          <span>Living Room Collection</span>
-          <h2>Nested Round Coffee Tables</h2>
-          <strong>€40 / set · Logistics €12.59</strong>
+          <span>{copy.detailCollection}</span>
+          <h2>{copy.detailTitle}</h2>
+          <strong>€40 / set · {copy.logistics} €12.59</strong>
           <div className="detail-divider" />
           <div className="finish-picker">
-            <p>Scene Render: <b>{finishOptions[activeFinish].name}</b></p>
+            <p>{copy.sceneRender}: <b>{finishOptions[activeFinish].name}</b></p>
             <div>
               {finishOptions.map((finish, index) => (
                 <button
@@ -604,60 +1006,57 @@ function ProductDetail() {
             </div>
           </div>
           <div className="specs">
-            <h3>Specifications</h3>
-            <p>• Product: large + small round coffee table set</p>
-            <p>• Finish: white marble-look tops with black metal circular frames</p>
-            <p>• Price note: negotiable for B2B quantity orders</p>
+            <h3>{copy.specs}</h3>
+            <p>• {productCopy["Nested Round Coffee Tables"][lang].spec}</p>
+            <p>• {copy.detailSpecs}</p>
+            <p>• {copy.negotiable}</p>
           </div>
-          <span className="moq">SOURCE: TESSILO PRODUCT EXCEL</span>
+          <span className="moq">{copy.source}</span>
           <div className="detail-actions">
-            <a className="button gold" href="#quote">Request Pricing Quote</a>
-            <a className="button outline" href="/assets/excel/row-03-col-02.png" download>Download Product Image</a>
+            <a className="button gold" href="#quote">{copy.requestPricing}</a>
+            <a className="button outline" href="/assets/excel/row-03-col-02.png" download>{copy.downloadImage}</a>
           </div>
         </div>
       </div>
       <div className="detail-tabs" role="tablist" aria-label="Product information">
-        {["Description", "Specifications", "Shipping & Logistics"].map((tab) => (
-          <button className={tab === activeTab ? "is-active" : ""} key={tab} role="tab" type="button" onClick={() => setActiveTab(tab)}>
+        {copy.tabs.map((tab: string, index: number) => (
+          <button className={index === activeTab ? "is-active" : ""} key={tab} role="tab" type="button" onClick={() => setActiveTab(index)}>
             {tab}
           </button>
         ))}
       </div>
       <div className="detail-tab-panel">
-        <h3>{activeTab === "Description" ? "Compact tables for premium living and hospitality spaces" : activeTab}</h3>
+        <h3>{activeTab === 0 ? copy.detailPanelTitle : copy.tabs[activeTab]}</h3>
         <p>
-          {activeTab === "Description"
-            ? "A nested coffee table set designed for flexible lounge styling, hotel suites, apartment living rooms, and small-space merchandising. The Excel source lists this item as 大小圆茶几 with a €40 unit price and €12.59 logistics fee."
-            : activeTab === "Specifications"
-              ? "Two round tables, white stone-look surface, slim black circular metal base, suitable for coordinated living-room and hospitality packages."
-              : "Listed logistics fee is €12.59. For combined orders, Tessilo can quote consolidated shipping and B2B quantity pricing."}
+          {activeTab === 0 ? copy.detailDescription : activeTab === 1 ? copy.detailSpecs : copy.detailShipping}
         </p>
       </div>
       <div className="related">
-        <h2>Complementary Pieces</h2>
+        <h2>{copy.related}</h2>
         <div className="product-row">
           {[
             listing[0],
             listing[3],
             listing[8],
-          ].map((product) => <ProductCard product={product} key={product.name} />)}
+          ].map((product) => <ProductCard product={product} lang={lang} key={product.name} />)}
         </div>
       </div>
     </section>
   );
 }
 
-function Faq() {
+function Faq({ lang }: { lang: Lang }) {
   const [open, setOpen] = useState(0);
+  const copy = ui[lang];
 
   return (
     <section className="section faq">
       <div className="section-heading centered">
-        <Eyebrow>B2B Support</Eyebrow>
-        <h2>Frequently Asked Questions</h2>
+        <Eyebrow>{copy.faqEyebrow}</Eyebrow>
+        <h2>{copy.faqTitle}</h2>
       </div>
       <div className="faq-list">
-        {faqs.map((item, index) => (
+        {faqsByLang[lang].map((item, index) => (
           <div className={`faq-item ${open === index ? "is-open" : ""}`} key={item.q}>
             <button type="button" onClick={() => setOpen(open === index ? -1 : index)} aria-expanded={open === index}>
               <span>{item.q}</span>
@@ -671,28 +1070,31 @@ function Faq() {
   );
 }
 
-function Cta() {
+function Cta({ lang }: { lang: Lang }) {
   const [submitted, setSubmitted] = useState(false);
+  const copy = ui[lang];
 
   return (
     <section className="cta" id="quote">
-      <h2>Ready to Furnish Your Space?</h2>
-      <p>Join our waitlist for the 2026 contract collection or request a consultation today.</p>
+      <h2>{copy.ctaTitle}</h2>
+      <p>{copy.ctaCopy}</p>
       <form
         onSubmit={(event) => {
           event.preventDefault();
           setSubmitted(true);
         }}
       >
-        <input type="email" required placeholder="Enter your business email..." aria-label="Business email" />
-        <button className="button gold" type="submit">{submitted ? "Submitted" : "Get Started"}</button>
+        <input type="email" required placeholder={copy.emailPlaceholder} aria-label="Business email" />
+        <button className="button gold" type="submit">{submitted ? copy.submitted : copy.getStarted}</button>
       </form>
-      {submitted ? <p className="form-note">Thanks — our contract team will follow up shortly.</p> : null}
+      {submitted ? <p className="form-note">{copy.formNote}</p> : null}
     </section>
   );
 }
 
-function Footer() {
+function Footer({ lang }: { lang: Lang }) {
+  const copy = ui[lang];
+
   return (
     <footer className="footer" id="contact">
       <div className="footer-main">
@@ -701,7 +1103,7 @@ function Footer() {
             <img src={`${A}logo.png`} alt="" />
             <span>Tessilo</span>
           </a>
-          <p>The Home of Comfort &amp; Style. Global B2B leaders in premium contract furniture and architectural solutions.</p>
+          <p>{copy.footerCopy}</p>
           <div className="socials" aria-label="Tessilo social media">
             {socialLinks.map((item) => (
               <a href={item.href} key={item.platform} target="_blank" rel="noreferrer" aria-label={item.platform}>
@@ -710,10 +1112,10 @@ function Footer() {
             ))}
           </div>
         </div>
-        <FooterColumn title="Products" items={["Sofa", "Coffee Tables", "Office Chair", "Office Desk", "Storage Cabinet"]} />
-        <FooterColumn title="Company" items={["About Us", "Our Process", "B2B Wholesale", "Global Logistics"]} />
+        <FooterColumn title={copy.nav.products} items={["Sofa", "Coffee", "Chair", "Desk", "Cabinet"].map((item) => productTypeCopy[item][lang])} />
+        <FooterColumn title={copy.company} items={[copy.aboutUs, copy.workflowTitle, "B2B Wholesale", copy.worldwide]} />
         <div className="footer-col social-column">
-          <h3>Social &amp; Contact</h3>
+          <h3>{copy.socialContact}</h3>
           {socialLinks.map((item) => (
             <a href={item.href} key={item.platform} target="_blank" rel="noreferrer">
               <strong>{item.platform}</strong>
@@ -724,7 +1126,7 @@ function Footer() {
       </div>
       <div className="footer-bottom">
         <span>© 2026 Tessilo Global Home. All rights reserved.</span>
-        <span>Privacy Policy · Terms of Service · Cookie Settings</span>
+        <span>{copy.privacy}</span>
       </div>
     </footer>
   );
