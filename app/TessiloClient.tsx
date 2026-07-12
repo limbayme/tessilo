@@ -998,7 +998,7 @@ function Process({ lang }: { lang: Lang }) {
   const copy = ui[lang];
 
   return (
-    <section className="section muted process">
+    <section className="section muted process" id="process">
       <div className="section-heading">
         <Eyebrow>{copy.workflowEyebrow}</Eyebrow>
         <h2>{copy.workflowTitle}</h2>
@@ -1050,7 +1050,7 @@ function GlobalReach({ lang }: { lang: Lang }) {
   const copy = ui[lang];
 
   return (
-    <section className="global-reach">
+    <section className="global-reach" id="logistics">
       <div className="reach-card">
         <Eyebrow>{copy.worldwide}</Eyebrow>
         <h2>{copy.reachTitle}</h2>
@@ -1320,6 +1320,16 @@ function Cta({ lang }: { lang: Lang }) {
 
 function Footer({ lang }: { lang: Lang }) {
   const copy = ui[lang];
+  const productFooterLinks = ["Sofa", "Coffee", "Chair", "Desk", "Cabinet"].map((item) => ({
+    label: productTypeCopy[item][lang],
+    href: "#products",
+  }));
+  const companyFooterLinks = [
+    { label: copy.aboutUs, href: "#about" },
+    { label: copy.workflowTitle, href: "#process" },
+    { label: copy.b2bWholesale, href: "#quote" },
+    { label: copy.worldwide, href: "#logistics" },
+  ];
 
   return (
     <footer className="footer" id="contact">
@@ -1338,8 +1348,8 @@ function Footer({ lang }: { lang: Lang }) {
             ))}
           </div>
         </div>
-        <FooterColumn title={copy.nav.products} items={["Sofa", "Coffee", "Chair", "Desk", "Cabinet"].map((item) => productTypeCopy[item][lang])} />
-        <FooterColumn title={copy.company} items={[copy.aboutUs, copy.workflowTitle, copy.b2bWholesale, copy.worldwide]} />
+        <FooterColumn title={copy.nav.products} items={productFooterLinks} />
+        <FooterColumn title={copy.company} items={companyFooterLinks} />
         <div className="footer-col social-column">
           <h3>{copy.socialContact}</h3>
           {socialLinks.map((item) => (
@@ -1358,11 +1368,11 @@ function Footer({ lang }: { lang: Lang }) {
   );
 }
 
-function FooterColumn({ title, items }: { title: string; items: string[] }) {
+function FooterColumn({ title, items }: { title: string; items: { label: string; href: string }[] }) {
   return (
     <div className="footer-col">
       <h3>{title}</h3>
-      {items.map((item) => <a href="#" key={item}>{item}</a>)}
+      {items.map((item) => <a href={item.href} key={item.label}>{item.label}</a>)}
     </div>
   );
 }
