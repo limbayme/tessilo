@@ -722,17 +722,6 @@ function Footer() {
           ))}
         </div>
       </div>
-      <div className="qr-grid" aria-label="Social QR codes">
-        {socialLinks.filter((item) => item.image).map((item) => (
-          <article key={item.platform}>
-            <img src={`${A}${item.image}`} alt={`${item.platform} QR code`} />
-            <div>
-              <strong>{item.platform}</strong>
-              <span>{item.note}</span>
-            </div>
-          </article>
-        ))}
-      </div>
       <div className="footer-bottom">
         <span>© 2026 Tessilo Global Home. All rights reserved.</span>
         <span>Privacy Policy · Terms of Service · Cookie Settings</span>
