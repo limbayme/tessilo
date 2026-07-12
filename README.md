@@ -8,6 +8,7 @@ Tessilo is a responsive B2B furniture independent site built from the Figma desi
 - Mobile navigation overlay with slide-in motion and animated hamburger state
 - Product listing with interactive category/product-type filters and euro price range control
 - Product detail section with gallery thumbnails, finish selector, product tabs, and related products
+- B2B inquiry flow with product selection, quantity, project notes, and direct WhatsApp quote links
 - Excel-backed product catalog update: 9 Tessilo products with euro prices, logistics fees, notes, and social media contact channels
 - EN / 中文 / DE / FR language switching for core site content
 - Special Negotiatable badge styling for products marked negotiable in the Excel source

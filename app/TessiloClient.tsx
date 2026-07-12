@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 
 const A = "/assets/";
+const WHATSAPP_URL = "https://wa.me/18296874119?text=Hello%20Tessilo%2C%20I%20would%20like%20to%20request%20a%20B2B%20furniture%20quote.";
 
 type Lang = "en" | "zh" | "de" | "fr";
 
@@ -83,6 +84,11 @@ const ui = {
     ctaTitle: "Ready to Furnish Your Space?",
     ctaCopy: "Join our waitlist for the 2026 contract collection or request a consultation today.",
     emailPlaceholder: "Enter your business email...",
+    productPlaceholder: "Select product interest",
+    quantityPlaceholder: "Estimated quantity",
+    messagePlaceholder: "Project notes, destination country, target delivery time...",
+    whatsappQuote: "Chat on WhatsApp",
+    inquirySteps: ["Choose a product", "Share quantity & destination", "Confirm by WhatsApp"],
     submitted: "Submitted",
     getStarted: "Get Started",
     formNote: "Thanks — our contract team will follow up shortly.",
@@ -142,6 +148,11 @@ const ui = {
     ctaTitle: "准备开始你的家具项目？",
     ctaCopy: "加入 2026 合同家具系列候补名单，或立即咨询采购方案。",
     emailPlaceholder: "请输入企业邮箱...",
+    productPlaceholder: "选择意向产品",
+    quantityPlaceholder: "预计采购数量",
+    messagePlaceholder: "项目备注、目的国家、期望交付时间...",
+    whatsappQuote: "WhatsApp 直接咨询",
+    inquirySteps: ["选择产品", "填写数量与目的地", "通过 WhatsApp 确认"],
     submitted: "已提交",
     getStarted: "开始咨询",
     formNote: "谢谢，我们的合同家具团队会尽快联系你。",
@@ -201,6 +212,11 @@ const ui = {
     ctaTitle: "Bereit, Ihren Raum einzurichten?",
     ctaCopy: "Treten Sie der Warteliste für die Vertragskollektion 2026 bei oder fragen Sie eine Beratung an.",
     emailPlaceholder: "Geschäftliche E-Mail eingeben...",
+    productPlaceholder: "Produktinteresse auswählen",
+    quantityPlaceholder: "Geschätzte Menge",
+    messagePlaceholder: "Projektinfo, Zielland, gewünschter Liefertermin...",
+    whatsappQuote: "Per WhatsApp chatten",
+    inquirySteps: ["Produkt wählen", "Menge & Zielort teilen", "Per WhatsApp bestätigen"],
     submitted: "Gesendet",
     getStarted: "Starten",
     formNote: "Danke — unser Vertragsteam meldet sich in Kürze.",
@@ -260,6 +276,11 @@ const ui = {
     ctaTitle: "Prêt à meubler votre espace ?",
     ctaCopy: "Rejoignez la liste d'attente de la collection contract 2026 ou demandez une consultation.",
     emailPlaceholder: "Entrez votre e-mail professionnel...",
+    productPlaceholder: "Sélectionner un produit",
+    quantityPlaceholder: "Quantité estimée",
+    messagePlaceholder: "Notes projet, pays de destination, délai souhaité...",
+    whatsappQuote: "Discuter sur WhatsApp",
+    inquirySteps: ["Choisir un produit", "Partager quantité & destination", "Confirmer par WhatsApp"],
     submitted: "Envoyé",
     getStarted: "Commencer",
     formNote: "Merci — notre équipe contract vous contactera rapidement.",
@@ -792,6 +813,7 @@ function ProductCard({ product, lang }: { product: Product; lang: Lang }) {
       </div>
       <div className="product-action">
         <a className="button outline" href="#quote">{copy.requestQuote}</a>
+        <a className="whatsapp-mini" href={WHATSAPP_URL} target="_blank" rel="noreferrer">WhatsApp</a>
       </div>
     </article>
   );
@@ -1014,6 +1036,7 @@ function ProductDetail({ lang }: { lang: Lang }) {
           <span className="moq">{copy.source}</span>
           <div className="detail-actions">
             <a className="button gold" href="#quote">{copy.requestPricing}</a>
+            <a className="button whatsapp" href={WHATSAPP_URL} target="_blank" rel="noreferrer">{copy.whatsappQuote}</a>
             <a className="button outline" href="/assets/excel/row-03-col-02.png" download>{copy.downloadImage}</a>
           </div>
         </div>
@@ -1078,14 +1101,31 @@ function Cta({ lang }: { lang: Lang }) {
     <section className="cta" id="quote">
       <h2>{copy.ctaTitle}</h2>
       <p>{copy.ctaCopy}</p>
+      <div className="inquiry-flow" aria-label="Inquiry flow">
+        {copy.inquirySteps.map((step: string, index: number) => (
+          <span key={step}><b>{index + 1}</b>{step}</span>
+        ))}
+      </div>
       <form
+        className="quote-form"
         onSubmit={(event) => {
           event.preventDefault();
           setSubmitted(true);
         }}
       >
+        <select required defaultValue="" aria-label={copy.productPlaceholder}>
+          <option value="" disabled>{copy.productPlaceholder}</option>
+          {listing.map((product) => (
+            <option value={product.name} key={product.name}>{productLabel(product, lang).name} · {product.price}</option>
+          ))}
+        </select>
+        <input type="number" min="1" placeholder={copy.quantityPlaceholder} aria-label={copy.quantityPlaceholder} />
         <input type="email" required placeholder={copy.emailPlaceholder} aria-label="Business email" />
-        <button className="button gold" type="submit">{submitted ? copy.submitted : copy.getStarted}</button>
+        <textarea placeholder={copy.messagePlaceholder} aria-label={copy.messagePlaceholder} rows={3} />
+        <div className="quote-actions">
+          <button className="button gold" type="submit">{submitted ? copy.submitted : copy.getStarted}</button>
+          <a className="button whatsapp" href={WHATSAPP_URL} target="_blank" rel="noreferrer">{copy.whatsappQuote}</a>
+        </div>
       </form>
       {submitted ? <p className="form-note">{copy.formNote}</p> : null}
     </section>
