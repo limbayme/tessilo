@@ -99,6 +99,8 @@ const ui = {
     getStarted: "Get Started",
     formNote: "Thanks — our contract team will follow up shortly.",
     formError: "Sorry, the inquiry could not be sent. Please try WhatsApp or contact us directly.",
+    formErrorMissingFrom: "Email sender is not configured. Please add INQUIRY_FROM in Cloudflare.",
+    formErrorResend: "Resend rejected the email. Please verify the sending domain and INQUIRY_FROM.",
     quoteOnly: "Request custom quote",
     footerCopy: "The Home of Comfort & Style. Global B2B leaders in premium contract furniture and architectural solutions.",
     company: "Company",
@@ -175,6 +177,8 @@ const ui = {
     getStarted: "开始咨询",
     formNote: "谢谢，我们的合同家具团队会尽快联系你。",
     formError: "抱歉，询盘暂时发送失败。请尝试 WhatsApp 或直接联系我们。",
+    formErrorMissingFrom: "发件人未配置。请在 Cloudflare 添加 INQUIRY_FROM。",
+    formErrorResend: "Resend 拒绝发送。请确认发件域名已验证，并且 INQUIRY_FROM 正确。",
     quoteOnly: "获取定制报价",
     footerCopy: "舒适与风格之家。面向全球 B2B 的高端合同家具与空间解决方案供应商。",
     company: "公司",
@@ -251,6 +255,8 @@ const ui = {
     getStarted: "Starten",
     formNote: "Danke — unser Vertragsteam meldet sich in Kürze.",
     formError: "Die Anfrage konnte nicht gesendet werden. Bitte versuchen Sie WhatsApp oder kontaktieren Sie uns direkt.",
+    formErrorMissingFrom: "Absender ist nicht konfiguriert. Bitte INQUIRY_FROM in Cloudflare hinzufügen.",
+    formErrorResend: "Resend hat die E-Mail abgelehnt. Bitte Domain und INQUIRY_FROM prüfen.",
     quoteOnly: "Individuelles Angebot anfragen",
     footerCopy: "Zuhause für Komfort und Stil. Globale B2B-Experten für Premium-Vertragsmöbel und architektonische Lösungen.",
     company: "Unternehmen",
@@ -327,6 +333,8 @@ const ui = {
     getStarted: "Commencer",
     formNote: "Merci — notre équipe contract vous contactera rapidement.",
     formError: "La demande n'a pas pu être envoyée. Essayez WhatsApp ou contactez-nous directement.",
+    formErrorMissingFrom: "L'expéditeur n'est pas configuré. Ajoutez INQUIRY_FROM dans Cloudflare.",
+    formErrorResend: "Resend a refusé l'e-mail. Vérifiez le domaine d'envoi et INQUIRY_FROM.",
     quoteOnly: "Demander un devis personnalisé",
     footerCopy: "La maison du confort et du style. Expert B2B mondial du mobilier contract premium et des solutions architecturales.",
     company: "Entreprise",
@@ -1209,7 +1217,13 @@ function Faq({ lang }: { lang: Lang }) {
 
 function Cta({ lang }: { lang: Lang }) {
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
+  const [errorCode, setErrorCode] = useState<string>("");
   const copy = ui[lang];
+  const errorMessage = errorCode === "missing_inquiry_from"
+    ? copy.formErrorMissingFrom
+    : errorCode === "resend_send_failed"
+      ? copy.formErrorResend
+      : copy.formError;
 
   return (
     <section className="cta" id="quote">
@@ -1227,6 +1241,7 @@ function Cta({ lang }: { lang: Lang }) {
           const form = event.currentTarget;
           const data = new FormData(form);
           setStatus("sending");
+          setErrorCode("");
           try {
             const response = await fetch("/api/inquiry", {
               method: "POST",
@@ -1241,6 +1256,8 @@ function Cta({ lang }: { lang: Lang }) {
             });
 
             if (!response.ok) {
+              const result = await response.json().catch(() => null);
+              setErrorCode(result?.error ?? "");
               throw new Error("Inquiry request failed");
             }
 
@@ -1268,7 +1285,7 @@ function Cta({ lang }: { lang: Lang }) {
         </div>
       </form>
       {status === "sent" ? <p className="form-note">{copy.formNote}</p> : null}
-      {status === "error" ? <p className="form-note error">{copy.formError}</p> : null}
+      {status === "error" ? <p className="form-note error">{errorMessage}</p> : null}
     </section>
   );
 }

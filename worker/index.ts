@@ -61,7 +61,11 @@ async function handleInquiry(request: Request, env: Env) {
   }
 
   if (!env.RESEND_API_KEY) {
-    return Response.json({ error: "Email service is not configured" }, { status: 500 });
+    return Response.json({ error: "missing_resend_api_key" }, { status: 500 });
+  }
+
+  if (!env.INQUIRY_FROM) {
+    return Response.json({ error: "missing_inquiry_from" }, { status: 500 });
   }
 
   const subject = `Tessilo B2B Inquiry — ${product}`;
@@ -92,7 +96,7 @@ async function handleInquiry(request: Request, env: Env) {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      from: env.INQUIRY_FROM || "Tessilo <onboarding@resend.dev>",
+      from: env.INQUIRY_FROM,
       to: [INQUIRY_TO],
       reply_to: email,
       subject,
@@ -104,7 +108,7 @@ async function handleInquiry(request: Request, env: Env) {
   if (!response.ok) {
     const errorText = await response.text();
     console.error("Resend inquiry email failed", errorText);
-    return Response.json({ error: "Email send failed" }, { status: 502 });
+    return Response.json({ error: "resend_send_failed", detail: errorText.slice(0, 500) }, { status: 502 });
   }
 
   return Response.json({ ok: true });
