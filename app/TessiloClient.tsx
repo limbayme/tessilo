@@ -4,7 +4,6 @@ import { useMemo, useState } from "react";
 
 const A = "/assets/";
 const WHATSAPP_URL = "https://wa.me/18296874119?text=Hello%20Tessilo%2C%20I%20would%20like%20to%20request%20a%20B2B%20furniture%20quote.";
-const INQUIRY_EMAIL = "leo@digitauro.com";
 
 type Lang = "en" | "zh" | "de" | "fr";
 
@@ -20,9 +19,6 @@ type Product = {
   spec: string;
   image: string;
   category: string;
-  unitPrice: number;
-  price: string;
-  logistics: string;
   note?: string;
 };
 
@@ -65,7 +61,6 @@ const ui = {
     categories: "Categories",
     productType: "Product Type",
     priceRange: "Price Range",
-    logistics: "Logistics",
     negotiable: "Negotiatable",
     detailCollection: "Living Room Collection",
     detailTitle: "Nested Round Coffee Tables",
@@ -76,9 +71,9 @@ const ui = {
     downloadImage: "Download Product Image",
     tabs: ["Description", "Specifications", "Shipping & Logistics"],
     detailPanelTitle: "Compact tables for premium living and hospitality spaces",
-    detailDescription: "A nested coffee table set designed for flexible lounge styling, hotel suites, apartment living rooms, and small-space merchandising. The Excel source lists this item as 大小圆茶几 with a €40 unit price and €12.59 logistics fee.",
+    detailDescription: "A nested coffee table set designed for flexible lounge styling, hotel suites, apartment living rooms, and small-space merchandising. Submit an inquiry and our team will provide B2B pricing based on quantity and destination.",
     detailSpecs: "Two round tables, white stone-look surface, slim black circular metal base, suitable for coordinated living-room and hospitality packages.",
-    detailShipping: "Listed logistics fee is €12.59. For combined orders, Tessilo can quote consolidated shipping and B2B quantity pricing.",
+    detailShipping: "Tessilo can quote consolidated shipping, destination-based logistics, and B2B quantity pricing after receiving your inquiry.",
     related: "Complementary Pieces",
     faqEyebrow: "B2B Support",
     faqTitle: "Frequently Asked Questions",
@@ -103,6 +98,8 @@ const ui = {
     submitted: "Submitted",
     getStarted: "Get Started",
     formNote: "Thanks — our contract team will follow up shortly.",
+    formError: "Sorry, the inquiry could not be sent. Please try WhatsApp or contact us directly.",
+    quoteOnly: "Request custom quote",
     footerCopy: "The Home of Comfort & Style. Global B2B leaders in premium contract furniture and architectural solutions.",
     company: "Company",
     socialContact: "Social & Contact",
@@ -140,7 +137,6 @@ const ui = {
     categories: "分类",
     productType: "产品类型",
     priceRange: "价格区间",
-    logistics: "物流费",
     negotiable: "可议价",
     detailCollection: "客厅系列",
     detailTitle: "大小圆茶几",
@@ -151,9 +147,9 @@ const ui = {
     downloadImage: "下载产品图",
     tabs: ["描述", "规格", "物流与运输"],
     detailPanelTitle: "适合高端客厅与酒店空间的灵活茶几组合",
-    detailDescription: "大小圆茶几适合客厅、酒店套房、公寓与小空间陈列。Excel 源数据标注单价 €40，物流费 €12.59。",
+    detailDescription: "大小圆茶几适合客厅、酒店套房、公寓与小空间陈列。提交询盘后，我们会根据数量和目的地提供 B2B 报价。",
     detailSpecs: "双圆桌组合，白色石纹台面，黑色金属圆形框架，适合整体客厅与酒店家具配套。",
-    detailShipping: "该产品表内物流费为 €12.59。组合采购可按数量与合并运输重新报价。",
+    detailShipping: "Tessilo 可根据目的地、采购数量和合并运输方式提供物流与批发报价。",
     related: "搭配产品",
     faqEyebrow: "B2B 支持",
     faqTitle: "常见问题",
@@ -178,6 +174,8 @@ const ui = {
     submitted: "已提交",
     getStarted: "开始咨询",
     formNote: "谢谢，我们的合同家具团队会尽快联系你。",
+    formError: "抱歉，询盘暂时发送失败。请尝试 WhatsApp 或直接联系我们。",
+    quoteOnly: "获取定制报价",
     footerCopy: "舒适与风格之家。面向全球 B2B 的高端合同家具与空间解决方案供应商。",
     company: "公司",
     socialContact: "社媒与联系",
@@ -215,7 +213,6 @@ const ui = {
     categories: "Kategorien",
     productType: "Produkttyp",
     priceRange: "Preisspanne",
-    logistics: "Logistik",
     negotiable: "Verhandelbar",
     detailCollection: "Wohnzimmerkollektion",
     detailTitle: "Runde Satztische",
@@ -226,9 +223,9 @@ const ui = {
     downloadImage: "Produktbild herunterladen",
     tabs: ["Beschreibung", "Spezifikationen", "Versand & Logistik"],
     detailPanelTitle: "Kompakte Tische für hochwertige Wohn- und Hospitality-Bereiche",
-    detailDescription: "Ein Satztisch-Set für flexible Lounge-Gestaltung, Hotelsuiten, Apartments und kompakte Verkaufsflächen. Laut Excel: €40 Stückpreis und €12,59 Logistikkosten.",
+    detailDescription: "Ein Satztisch-Set für flexible Lounge-Gestaltung, Hotelsuiten, Apartments und kompakte Verkaufsflächen. Senden Sie eine Anfrage und unser Team erstellt ein B2B-Angebot nach Menge und Zielort.",
     detailSpecs: "Zwei runde Tische, weiße Steinoptik, schlankes schwarzes Metallgestell, geeignet für Wohn- und Hospitality-Pakete.",
-    detailShipping: "Die gelistete Logistikgebühr beträgt €12,59. Für Sammelbestellungen bietet Tessilo konsolidierte Versand- und Mengenpreise.",
+    detailShipping: "Tessilo bietet nach Anfrage konsolidierten Versand, zielortbezogene Logistik und Mengenpreise.",
     related: "Passende Stücke",
     faqEyebrow: "B2B Support",
     faqTitle: "Häufige Fragen",
@@ -253,6 +250,8 @@ const ui = {
     submitted: "Gesendet",
     getStarted: "Starten",
     formNote: "Danke — unser Vertragsteam meldet sich in Kürze.",
+    formError: "Die Anfrage konnte nicht gesendet werden. Bitte versuchen Sie WhatsApp oder kontaktieren Sie uns direkt.",
+    quoteOnly: "Individuelles Angebot anfragen",
     footerCopy: "Zuhause für Komfort und Stil. Globale B2B-Experten für Premium-Vertragsmöbel und architektonische Lösungen.",
     company: "Unternehmen",
     socialContact: "Social & Kontakt",
@@ -290,7 +289,6 @@ const ui = {
     categories: "Catégories",
     productType: "Type de produit",
     priceRange: "Fourchette de prix",
-    logistics: "Logistique",
     negotiable: "Négociable",
     detailCollection: "Collection salon",
     detailTitle: "Tables basses rondes gigognes",
@@ -301,9 +299,9 @@ const ui = {
     downloadImage: "Télécharger l'image produit",
     tabs: ["Description", "Spécifications", "Expédition & logistique"],
     detailPanelTitle: "Tables compactes pour espaces résidentiels et hôteliers premium",
-    detailDescription: "Un ensemble de tables gigognes pour salons, suites hôtelières, appartements et petits espaces. La source Excel indique un prix unitaire de €40 et €12,59 de logistique.",
+    detailDescription: "Un ensemble de tables gigognes pour salons, suites hôtelières, appartements et petits espaces. Envoyez une demande et notre équipe fournira un devis B2B selon la quantité et la destination.",
     detailSpecs: "Deux tables rondes, plateau effet pierre blanche, structure circulaire en métal noir, adaptées aux projets résidentiels et hôteliers.",
-    detailShipping: "Les frais logistiques listés sont de €12,59. Pour les commandes groupées, Tessilo peut proposer transport consolidé et prix B2B.",
+    detailShipping: "Tessilo peut proposer transport consolidé, logistique selon destination et prix B2B après réception de votre demande.",
     related: "Pièces complémentaires",
     faqEyebrow: "Support B2B",
     faqTitle: "Questions fréquentes",
@@ -328,6 +326,8 @@ const ui = {
     submitted: "Envoyé",
     getStarted: "Commencer",
     formNote: "Merci — notre équipe contract vous contactera rapidement.",
+    formError: "La demande n'a pas pu être envoyée. Essayez WhatsApp ou contactez-nous directement.",
+    quoteOnly: "Demander un devis personnalisé",
     footerCopy: "La maison du confort et du style. Expert B2B mondial du mobilier contract premium et des solutions architecturales.",
     company: "Entreprise",
     socialContact: "Réseaux & contact",
@@ -388,18 +388,12 @@ const featured: Product[] = [
     spec: "2.45m corner sofa with storage",
     image: "excel/row-02-col-02.png",
     category: "Living Room",
-    unitPrice: 299.05,
-    price: "€299.05 / unit",
-    logistics: "Logistics €57",
   },
   {
     name: "Nested Round Coffee Tables",
     spec: "Large + small round coffee table set",
     image: "excel/coffee-table-scene-living.jpg",
     category: "Living Room",
-    unitPrice: 40,
-    price: "€40 / set",
-    logistics: "Logistics €12.59",
     note: "Negotiable",
   },
   {
@@ -407,9 +401,6 @@ const featured: Product[] = [
     spec: "Corner workstation desk",
     image: "excel/row-09-col-02.png",
     category: "Office",
-    unitPrice: 72,
-    price: "€72 / unit",
-    logistics: "Logistics €19.21",
   },
 ];
 
@@ -420,9 +411,6 @@ const listing: Product[] = [
     spec: "1.7m TV cabinet",
     image: "excel/row-04-col-02.png",
     category: "Living Room",
-    unitPrice: 50,
-    price: "€50 / unit",
-    logistics: "Logistics €23.70",
     note: "Negotiable",
   },
   {
@@ -430,45 +418,30 @@ const listing: Product[] = [
     spec: "Two leather dining chairs",
     image: "excel/row-05-col-02.png",
     category: "Dining",
-    unitPrice: 65,
-    price: "€65 / 2 pcs",
-    logistics: "Logistics €11.44",
   },
   {
     name: "Swivel Office Chair",
     spec: "Rotating office chair",
     image: "excel/row-06-col-02.png",
     category: "Office",
-    unitPrice: 49.35,
-    price: "€49.35 / unit",
-    logistics: "Logistics €9.81",
   },
   {
     name: "One-Drawer Nightstand",
     spec: "Compact bedside cabinet",
     image: "excel/row-07-col-02.png",
     category: "Bedroom",
-    unitPrice: 35,
-    price: "€35 / unit",
-    logistics: "Logistics €8.24",
   },
   {
     name: "Solid Wood Chest",
     spec: "Full solid wood drawer cabinet",
     image: "excel/row-08-col-02.png",
     category: "Storage",
-    unitPrice: 135,
-    price: "€135 / unit",
-    logistics: "Logistics €26.59",
   },
   {
     name: "Fabric Sofa Bed",
     spec: "1.6m fabric sofa bed",
     image: "excel/row-10-col-02.png",
     category: "Living Room",
-    unitPrice: 161,
-    price: "€161 / unit",
-    logistics: "Logistics €11",
   },
 ];
 
@@ -955,21 +928,6 @@ function productLabel(product: Product, lang: Lang) {
   return productCopy[product.name]?.[lang] ?? { name: product.name, spec: product.spec, category: product.category };
 }
 
-function productPrice(product: Product, lang: Lang) {
-  const unitByProduct: Record<string, Record<Lang, string>> = {
-    "Nested Round Coffee Tables": { en: "set", zh: "套", de: "Set", fr: "ensemble" },
-    "Leather Dining Chairs": { en: "2 pcs", zh: "2 把", de: "2 Stk.", fr: "2 pcs" },
-  };
-  const unit = unitByProduct[product.name]?.[lang] ?? {
-    en: "unit",
-    zh: "件",
-    de: "Stück",
-    fr: "unité",
-  }[lang];
-
-  return `€${product.unitPrice.toLocaleString("en-US", { maximumFractionDigits: 2 })} / ${unit}`;
-}
-
 function ProductCard({ product, lang }: { product: Product; lang: Lang }) {
   const copy = ui[lang];
   const label = productLabel(product, lang);
@@ -982,8 +940,6 @@ function ProductCard({ product, lang }: { product: Product; lang: Lang }) {
       <div className="product-body">
         <span>{label.spec}</span>
         <h3>{label.name}</h3>
-        <p className="price-line">{productPrice(product, lang)}</p>
-        <p>{product.logistics.replace("Logistics", copy.logistics)}</p>
         {product.note ? <strong className="negotiable-badge">{copy.negotiable}</strong> : null}
       </div>
       <div className="product-action">
@@ -1074,7 +1030,6 @@ function GlobalReach({ lang }: { lang: Lang }) {
 function ProductListing({ lang }: { lang: Lang }) {
   const [activeCategories, setActiveCategories] = useState<string[]>([]);
   const [activeMaterials, setActiveMaterials] = useState<string[]>([]);
-  const [maxPrice, setMaxPrice] = useState(320);
   const copy = ui[lang];
 
   const visibleProducts = useMemo(() => {
@@ -1085,10 +1040,9 @@ function ProductListing({ lang }: { lang: Lang }) {
       const materialMatch = activeMaterials.length === 0 || activeMaterials.some((material) => {
         return productSearchTerms[material].some((term) => searchable.includes(term.toLowerCase()));
       });
-      const priceMatch = product.unitPrice <= maxPrice;
-      return categoryMatch && materialMatch && priceMatch;
+      return categoryMatch && materialMatch;
     });
-  }, [activeCategories, activeMaterials, maxPrice, lang]);
+  }, [activeCategories, activeMaterials, lang]);
 
   return (
     <section className="listing" aria-label="Product listing preview">
@@ -1101,20 +1055,6 @@ function ProductListing({ lang }: { lang: Lang }) {
         <aside className="filters" aria-label={copy.filters}>
           <FilterGroup title={copy.categories} items={["Living Room", "Office", "Dining", "Bedroom", "Storage"]} labels={categoryCopy} lang={lang} selected={activeCategories} onChange={setActiveCategories} />
           <FilterGroup title={copy.productType} items={["Sofa", "Coffee", "Chair", "Desk", "Cabinet", "Bed"]} labels={productTypeCopy} lang={lang} selected={activeMaterials} onChange={setActiveMaterials} />
-          <div className="filter-group">
-            <h3>{copy.priceRange}</h3>
-            <label className="range-control">
-              <input
-                type="range"
-                min="30"
-                max="320"
-                step="5"
-                value={maxPrice}
-                onChange={(event) => setMaxPrice(Number(event.target.value))}
-              />
-            </label>
-            <div className="range-labels"><span>€30</span><span>€{maxPrice.toLocaleString()}</span></div>
-          </div>
         </aside>
         <div className="listing-grid">
           {visibleProducts.map((product) => <ProductCard product={product} lang={lang} key={product.name} />)}
@@ -1181,7 +1121,7 @@ function ProductDetail({ lang }: { lang: Lang }) {
         <div className="detail-copy">
           <span>{copy.detailCollection}</span>
           <h2>{copy.detailTitle}</h2>
-          <strong>{productPrice(listing[1], lang)} · {copy.logistics} €12.59</strong>
+          <strong>{copy.quoteOnly}</strong>
           <div className="detail-divider" />
           <div className="finish-picker">
             <p>{copy.sceneRender}: <b>{sceneCopy[finishOptions[activeFinish].key][lang]}</b></p>
@@ -1268,7 +1208,7 @@ function Faq({ lang }: { lang: Lang }) {
 }
 
 function Cta({ lang }: { lang: Lang }) {
-  const [submitted, setSubmitted] = useState(false);
+  const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
   const copy = ui[lang];
 
   return (
@@ -1282,38 +1222,53 @@ function Cta({ lang }: { lang: Lang }) {
       </div>
       <form
         className="quote-form"
-        onSubmit={(event) => {
+        onSubmit={async (event) => {
           event.preventDefault();
           const form = event.currentTarget;
           const data = new FormData(form);
-          const body = [
-            copy.mailTitle,
-            "",
-            `${copy.mailProduct}: ${data.get("product") ?? ""}`,
-            `${copy.mailQuantity}: ${data.get("quantity") ?? ""}`,
-            `${copy.mailEmail}: ${data.get("email") ?? ""}`,
-            "",
-            `${copy.mailNotes}: ${data.get("message") ?? ""}`,
-          ].join("\n");
-          window.location.href = `mailto:${INQUIRY_EMAIL}?subject=${encodeURIComponent(copy.mailSubject)}&body=${encodeURIComponent(body)}`;
-          setSubmitted(true);
+          setStatus("sending");
+          try {
+            const response = await fetch("/api/inquiry", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                product: data.get("product") ?? "",
+                quantity: data.get("quantity") ?? "",
+                email: data.get("email") ?? "",
+                message: data.get("message") ?? "",
+                language: lang,
+              }),
+            });
+
+            if (!response.ok) {
+              throw new Error("Inquiry request failed");
+            }
+
+            setStatus("sent");
+            form.reset();
+          } catch {
+            setStatus("error");
+          }
         }}
       >
         <select name="product" required defaultValue="" aria-label={copy.productPlaceholder}>
           <option value="" disabled>{copy.productPlaceholder}</option>
           {listing.map((product) => (
-            <option value={product.name} key={product.name}>{productLabel(product, lang).name} · {productPrice(product, lang)}</option>
+            <option value={product.name} key={product.name}>{productLabel(product, lang).name}</option>
           ))}
         </select>
         <input name="quantity" type="number" min="1" placeholder={copy.quantityPlaceholder} aria-label={copy.quantityPlaceholder} />
         <input name="email" type="email" required placeholder={copy.emailPlaceholder} aria-label={copy.mailEmail} />
         <textarea name="message" placeholder={copy.messagePlaceholder} aria-label={copy.messagePlaceholder} rows={3} />
         <div className="quote-actions">
-          <button className="button gold" type="submit">{submitted ? copy.submitted : copy.getStarted}</button>
+          <button className="button gold" type="submit" disabled={status === "sending"}>
+            {status === "sent" ? copy.submitted : status === "sending" ? "..." : copy.getStarted}
+          </button>
           <a className="button whatsapp" href={WHATSAPP_URL} target="_blank" rel="noreferrer">{copy.whatsappQuote}</a>
         </div>
       </form>
-      {submitted ? <p className="form-note">{copy.formNote}</p> : null}
+      {status === "sent" ? <p className="form-note">{copy.formNote}</p> : null}
+      {status === "error" ? <p className="form-note error">{copy.formError}</p> : null}
     </section>
   );
 }

@@ -683,12 +683,6 @@ p {
   font-size: 14px;
 }
 
-.product-body .price-line {
-  color: var(--navy);
-  font-size: 16px;
-  font-weight: 700;
-}
-
 .negotiable-badge {
   display: inline-flex;
   width: fit-content;
@@ -953,18 +947,6 @@ p {
   width: 16px;
   height: 16px;
   accent-color: var(--gold);
-}
-
-.range-control input {
-  width: 100%;
-  accent-color: var(--gold);
-}
-
-.range-labels {
-  display: flex;
-  justify-content: space-between;
-  color: var(--muted);
-  font-size: 13px;
 }
 
 .listing-grid {

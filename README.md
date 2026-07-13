@@ -6,10 +6,10 @@ Tessilo is a responsive B2B furniture independent site built from the Figma desi
 
 - Responsive landing page based on the Figma desktop, tablet, and mobile layouts
 - Mobile navigation overlay with slide-in motion and animated hamburger state
-- Product listing with interactive category/product-type filters and euro price range control
+- Product listing with interactive category/product-type filters; B2B prices are hidden from the public UI
 - Product detail section with gallery thumbnails, finish selector, product tabs, and related products
-- B2B inquiry flow with product selection, quantity, project notes, mailto submission to `leo@digitauro.com`, and direct WhatsApp quote links
-- Excel-backed product catalog update: 9 Tessilo products with euro prices, logistics fees, notes, and social media contact channels
+- B2B inquiry flow with product selection, quantity, project notes, server-side email submission to `leo@digitauro.com`, and direct WhatsApp quote links
+- Excel-backed product catalog update: 9 Tessilo products, negotiable notes, and social media contact channels
 - EN / 中文 / DE / FR language switching for core site content
 - Special Negotiatable badge styling for products marked negotiable in the Excel source
 - AI-rendered coffee table scene images based on the Excel Image2 product reference
@@ -82,4 +82,11 @@ public/assets/excel/    Excel product images, QR/social assets, and generated sc
 
 Figma MCP asset URLs expire, so product and brand imagery used by the site is stored locally in `public/assets`.
 
-The current product, price, logistics, and social media content was updated from `Tessilo产品+社媒完整表.xlsx`. If the Excel changes later, refresh the exported images in `public/assets/excel/` and update the product/social arrays in `app/TessiloClient.tsx`.
+The current product and social media content was updated from `Tessilo产品+社媒完整表.xlsx`. Public pricing is intentionally hidden for B2B inquiry-based quoting. If the Excel changes later, refresh the exported images in `public/assets/excel/` and update the product/social arrays in `app/TessiloClient.tsx`.
+
+Inquiry email delivery uses the Worker `/api/inquiry` endpoint. Configure these Cloudflare environment variables before production deployment:
+
+```text
+RESEND_API_KEY=<your Resend API key>
+INQUIRY_FROM=Tessilo <quotes@your-verified-domain.com>
+```
