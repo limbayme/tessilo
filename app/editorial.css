@@ -1,0 +1,79 @@
+/* Image-led furniture editorial: calm framing, clear buying paths. */
+.topline{font-size:12px;letter-spacing:.025em;min-height:32px;background:#f1d875;color:#14384d}
+.header{background:#fffefa;border-bottom:0;padding-block:20px;grid-template-columns:190px 1fr 70px}
+.header nav{font-size:14px;letter-spacing:0;gap:32px}
+.header .wordmark-image{width:184px;height:48px}
+.header nav .nav-purchase{border:0;border-left:1px solid var(--line);border-radius:0;padding:7px 0 7px 28px}
+.editorial-hero{position:relative;min-height:660px;height:calc(100svh - 125px);max-height:960px;background:#203d47;isolation:isolate;color:#fff}
+.editorial-hero>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2}
+.editorial-hero::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,rgba(8,23,31,.7),rgba(8,23,31,.2) 60%,transparent),linear-gradient(0deg,rgba(8,23,31,.22),transparent 50%)}
+.editorial-hero-copy{height:100%;padding:7vw var(--pad);display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-end;max-width:880px}
+.editorial-hero h1{font-size:clamp(58px,7vw,108px);line-height:1.02;letter-spacing:-.055em;font-weight:500;max-width:760px;margin-bottom:24px}
+.editorial-hero-copy>p:not(.eyebrow){max-width:460px;font-size:19px;line-height:1.55}
+.editorial-hero-copy>div{display:flex;align-items:center;gap:28px;flex-wrap:wrap;margin-top:14px}
+.editorial-hero .button{background:#f4d878;border-color:#f4d878;color:#16374b;border-radius:0;font-size:15px;min-height:52px}
+.editorial-hero-copy>div>a:not(.button){font-size:15px;border-bottom:1px solid #fff8;padding-block:7px}
+.editorial-credit{position:absolute;right:24px;bottom:16px;font-size:12px;color:#fff}
+.eyebrow{font-size:12px;letter-spacing:.11em;font-weight:500}
+.brand-line{padding:22px var(--pad);font-size:18px;letter-spacing:-.01em;background:var(--ivory)}
+.brand-line span:last-child{font-size:12px;letter-spacing:.07em}
+.section{padding-block:100px}
+.collection-section h2,.story-intro h2,.manifesto h2,.trade h2,.inquiry h2{font-size:clamp(38px,4.3vw,66px);line-height:1.08;font-weight:500;letter-spacing:-.045em}
+.section-intro{font-size:16px}
+.filters button{font-size:14px;border:0;border-bottom:1px solid transparent;border-radius:0;padding:10px 16px;background:transparent}
+.filters button.active{background:transparent;color:var(--ink);border-color:var(--ink)}
+.product-grid{gap:56px 24px}
+.product-grid article .image-button,.product-grid article:nth-child(n) .image-button{border-radius:0!important}
+.product-grid .image-button{background:#eeefec}
+.product-grid .image-button img{aspect-ratio:1.12;object-fit:contain}
+.product-index{background:none;font-size:12px}
+.product-grid h3{font-size:23px;font-weight:500;letter-spacing:-.03em}
+.product-grid p{font-size:14px}
+.product-grid small{font-size:12px;letter-spacing:0}
+.card-actions{grid-template-columns:1fr;gap:12px}
+.card-actions:has(.shopify-buy-wrap){grid-template-columns:1fr 1fr}
+.add-button{font-size:14px;min-height:46px}
+.image-arrow{border-radius:0;background:#fffefa;width:36px;height:36px}
+.home-stories{padding:96px var(--pad);background:#efefe9}
+.story-intro{display:grid;grid-template-columns:1fr 1fr;gap:0 8%;margin-bottom:60px}
+.story-intro>.eyebrow{grid-column:1/-1}
+.story-intro>p:last-child{font-size:18px;line-height:1.65;max-width:550px;align-self:end}
+.story-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:5vw;align-items:start}
+.story-grid article:last-child{margin-top:120px}
+.story-grid img{aspect-ratio:1.14;object-fit:cover}
+.story-grid article:last-child img{aspect-ratio:.85}
+.story-caption{padding:26px 0;max-width:540px}
+.story-caption>span{font-size:12px;letter-spacing:.08em;color:var(--muted)}
+.story-caption h3{font-size:clamp(26px,3vw,44px);font-weight:500;letter-spacing:-.04em;margin:16px 0}
+.story-caption p{font-size:16px;color:var(--muted)}
+.story-caption a{font-size:14px}
+.concept-note{font-size:12px;color:var(--muted);margin:24px 0 0;max-width:850px}
+.twin-section{background:#dce8ed;color:var(--ink);grid-template-columns:.85fr 1.15fr;gap:5vw}
+.twin-copy h2{font-size:clamp(36px,4.5vw,68px);font-weight:500;line-height:1.05}
+.twin-copy>p:not(.eyebrow){color:var(--muted)}
+.twin-stage{border-radius:0}
+.twin-stage .scene{height:520px}
+.twin-picker button{color:var(--muted);border-color:var(--line);font-size:16px}
+.twin-picker button[aria-pressed=true]{color:var(--ink);font-weight:600}
+.twin-picker button span,.twin-meta,.scene-hint{font-size:12px}
+.manifesto{background:var(--ivory);padding-block:90px;gap:8%}
+.manifesto-statement{font-size:24px}
+.manifesto-body{padding-top:0}
+.button,.nav-purchase{border-radius:0}
+.trade{background:#f1d875}
+.trade-topics h3{font-size:24px;font-weight:500}
+.trade-topics article>span,.media-note,.storage-note,.bulk-table th,.bulk-table td{font-size:13px}
+.inquiry-panel,.product-trade,.detail-photo{border-radius:0}
+label,.header select,.form-status,.whatsapp{font-size:14px}
+.product-purchase h1{font-size:clamp(48px,6vw,86px);font-weight:500}
+.footer-brand .brand{background:transparent;padding:0}
+.footer-brand>span,footer>div:not(.footer-brand){font-size:13px}
+footer>p{font-size:36px}
+@media(max-width:800px){
+ .header{grid-template-columns:1fr auto}.header nav{gap:22px;font-size:14px}.header nav a:nth-child(2){display:block}
+ .editorial-hero{height:76svh;min-height:560px}.editorial-hero-copy{padding:48px 24px 64px}.editorial-hero h1{font-size:clamp(48px,9vw,72px)}.editorial-hero>img{object-position:60% center}
+ .editorial-hero-copy>p:not(.eyebrow){font-size:17px;max-width:350px}.editorial-hero-copy>div{gap:18px}
+ .section,.home-stories{padding-block:64px}.story-intro{grid-template-columns:1fr}.story-grid{gap:30px;grid-template-columns:1fr}.story-grid article:last-child{margin-top:0}.story-grid article:last-child img{aspect-ratio:1.14}
+ .story-intro>p:last-child{font-size:16px}.twin-section{grid-template-columns:1fr}.twin-stage .scene{height:380px}.manifesto{grid-template-columns:1fr}
+ .brand-line span:last-child{display:none}.card-actions:has(.shopify-buy-wrap){grid-template-columns:1fr}
+}
