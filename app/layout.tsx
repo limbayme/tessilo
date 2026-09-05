@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Tessilo — Premium B2B Furniture Solutions",
+  title: "Tessilo — Soft objects for good days.",
   description:
-    "Tessilo is a premium B2B furniture supplier for hospitality, commercial, executive and custom contract projects.",
+    "Comfort-led sofas and lounge objects for modern homes, retailers and design projects. Explore in 3D, shop online, or build a tailored trade assortment.",
   icons: {
     icon: [
       { url: "/favicon.ico" },

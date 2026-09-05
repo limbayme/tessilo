@@ -2,9 +2,11 @@
 import { handleImageOptimization, DEFAULT_DEVICE_SIZES, DEFAULT_IMAGE_SIZES } from "vinext/server/image-optimization";
 import handler from "vinext/server/app-router-entry";
 
-interface Env {
-  ASSETS: Fetcher;
-  DB: D1Database;
+import { handleInquiry } from "./inquiry";
+import { handleShopifyCatalog, handleShopifyCart, type ShopifyEnv } from "./shopify";
+
+interface Env extends ShopifyEnv {
+  ASSETS: { fetch(request: Request): Promise<Response> };
   RESEND_API_KEY?: string;
   INQUIRY_FROM?: string;
   IMAGES: {
@@ -14,104 +16,6 @@ interface Env {
       };
     };
   };
-}
-
-const INQUIRY_TO = "leo@digitauro.com";
-
-type InquiryPayload = {
-  product?: unknown;
-  quantity?: unknown;
-  email?: unknown;
-  message?: unknown;
-  language?: unknown;
-};
-
-function text(value: unknown, maxLength = 1200) {
-  return String(value ?? "").trim().slice(0, maxLength);
-}
-
-function escapeHtml(value: string) {
-  return value
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;");
-}
-
-async function handleInquiry(request: Request, env: Env) {
-  if (request.method !== "POST") {
-    return Response.json({ error: "Method not allowed" }, { status: 405 });
-  }
-
-  let payload: InquiryPayload;
-  try {
-    payload = await request.json();
-  } catch {
-    return Response.json({ error: "Invalid JSON" }, { status: 400 });
-  }
-
-  const product = text(payload.product, 200);
-  const quantity = text(payload.quantity, 80);
-  const email = text(payload.email, 320);
-  const message = text(payload.message, 3000);
-  const language = text(payload.language, 20);
-
-  if (!product || !email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-    return Response.json({ error: "Missing required fields" }, { status: 400 });
-  }
-
-  if (!env.RESEND_API_KEY) {
-    return Response.json({ error: "missing_resend_api_key" }, { status: 500 });
-  }
-
-  if (!env.INQUIRY_FROM) {
-    return Response.json({ error: "missing_inquiry_from" }, { status: 500 });
-  }
-
-  const subject = `Tessilo B2B Inquiry — ${product}`;
-  const lines = [
-    ["Product", product],
-    ["Quantity", quantity || "Not specified"],
-    ["Business email", email],
-    ["Language", language || "Not specified"],
-    ["Message", message || "Not specified"],
-  ];
-  const plainText = lines.map(([label, value]) => `${label}: ${value}`).join("\n");
-  const html = `
-    <h2>Tessilo B2B Inquiry</h2>
-    <table cellpadding="8" cellspacing="0" style="border-collapse:collapse;font-family:Arial,sans-serif">
-      ${lines.map(([label, value]) => `
-        <tr>
-          <th align="left" style="border:1px solid #e5e7eb;background:#f8f9fa">${escapeHtml(label)}</th>
-          <td style="border:1px solid #e5e7eb">${escapeHtml(value)}</td>
-        </tr>
-      `).join("")}
-    </table>
-  `;
-
-  const response = await fetch("https://api.resend.com/emails", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${env.RESEND_API_KEY}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      from: env.INQUIRY_FROM,
-      to: [INQUIRY_TO],
-      reply_to: email,
-      subject,
-      text: plainText,
-      html,
-    }),
-  });
-
-  if (!response.ok) {
-    const errorText = await response.text();
-    console.error("Resend inquiry email failed", errorText);
-    return Response.json({ error: "resend_send_failed", detail: errorText.slice(0, 500) }, { status: 502 });
-  }
-
-  return Response.json({ ok: true });
 }
 
 interface ExecutionContext {
@@ -142,6 +46,14 @@ const worker = {
 
     if (url.pathname === "/api/inquiry") {
       return handleInquiry(request, env);
+    }
+
+    if (url.pathname === "/api/shopify/catalog") {
+      return handleShopifyCatalog(request, env);
+    }
+
+    if (url.pathname === "/api/shopify/cart") {
+      return handleShopifyCart(request, env);
     }
 
     return handler.fetch(request, env, ctx);

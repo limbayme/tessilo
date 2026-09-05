@@ -1,0 +1,6 @@
+'use client';
+import {useEffect,useState} from 'react';
+import {products,type InquiryItem} from './catalog';
+export const SELECTION_KEY='tessilo-selection-v1';
+export function validSelection(value:unknown):InquiryItem[]{if(!Array.isArray(value))return [];const seen=new Set<string>();return value.filter(x=>x&&products.some(p=>p.sku===x.sku)&&Number.isInteger(x.quantity)&&x.quantity>0&&x.quantity<=10000&&!seen.has(x.sku)&&!!seen.add(x.sku)).slice(0,6).map(x=>({sku:x.sku,quantity:x.quantity}))}
+export function useSelection(){const [items,setItems]=useState<InquiryItem[]>([]),[ready,setReady]=useState(false),[storageError,setStorageError]=useState(false);useEffect(()=>{try{setItems(validSelection(JSON.parse(localStorage.getItem(SELECTION_KEY)||'[]')))}catch{setStorageError(true)}setReady(true);const sync=(event:StorageEvent)=>{if(event.key===SELECTION_KEY)try{setItems(validSelection(JSON.parse(event.newValue||'[]')))}catch{}};window.addEventListener('storage',sync);return()=>window.removeEventListener('storage',sync)},[]);useEffect(()=>{if(ready)try{localStorage.setItem(SELECTION_KEY,JSON.stringify(items))}catch{setStorageError(true)}},[items,ready]);return {items,setItems,ready,storageError}}
