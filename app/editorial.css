@@ -2,7 +2,7 @@
 .topline{font-size:12px;letter-spacing:.025em;min-height:32px;background:#f1d875;color:#14384d}
 .header{background:#fffefa;border-bottom:0;padding-block:20px;grid-template-columns:190px 1fr 70px}
 .header nav{font-size:14px;letter-spacing:0;gap:32px}
-.header .wordmark-image{width:184px;height:48px}
+.header .wordmark-image{width:146px;height:42px;object-fit:contain;object-position:left center}
 .header nav .nav-purchase{border:0;border-left:1px solid var(--line);border-radius:0;padding:7px 0 7px 28px}
 .editorial-hero{position:relative;min-height:660px;height:calc(100svh - 125px);max-height:960px;background:#203d47;isolation:isolate;color:#fff}
 .editorial-hero>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2}
@@ -66,7 +66,7 @@
 .inquiry-panel,.product-trade,.detail-photo{border-radius:0}
 label,.header select,.form-status,.whatsapp{font-size:14px}
 .product-purchase h1{font-size:clamp(48px,6vw,86px);font-weight:500}
-.footer-brand .brand{background:transparent;padding:0}
+.footer-brand .brand{background:transparent;padding:0}.footer-wordmark{width:230px;height:auto}
 .footer-brand>span,footer>div:not(.footer-brand){font-size:13px}
 footer>p{font-size:36px}
 @media(max-width:800px){
