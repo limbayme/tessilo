@@ -11,6 +11,7 @@ export type ShopifyLaunchProduct = {
   availableForSale: boolean;
   quantityAvailable: number | null;
   image?: { url: string; altText?: string; width?: number; height?: number };
+  model?: { id?: string; previewImage?: { url: string; altText?: string; width?: number; height?: number }; sources?: Array<{ url: string; mimeType: string; format: string; filesize: number }> } | null;
   price: { amount: string; currencyCode: string };
 };
 

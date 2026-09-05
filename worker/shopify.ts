@@ -47,6 +47,15 @@ const catalogQuery = `#graphql
       nodes {
         id handle title description availableForSale
         featuredImage { url altText width height }
+        media(first: 20) {
+          nodes {
+            ... on Model3d {
+              id
+              previewImage { url altText width height }
+              sources { url mimeType format filesize }
+            }
+          }
+        }
         variants(first: 30) {
           nodes { id title sku availableForSale quantityAvailable price { amount currencyCode } }
         }
@@ -59,6 +68,7 @@ type CatalogData = {
   products: { nodes: Array<{
     id: string; handle: string; title: string; description: string; availableForSale: boolean;
     featuredImage?: { url: string; altText?: string; width?: number; height?: number };
+    media: { nodes: Array<{ id?: string; previewImage?: { url: string; altText?: string; width?: number; height?: number }; sources?: Array<{ url: string; mimeType: string; format: string; filesize: number }> }> };
     variants: { nodes: Array<{ id: string; title: string; sku?: string; availableForSale: boolean; quantityAvailable?: number; price: { amount: string; currencyCode: string } }> };
   }> };
 };
@@ -77,6 +87,7 @@ export async function handleShopifyCatalog(request: Request, env: ShopifyEnv): P
           title: product.title,
           description: product.description,
           image: product.featuredImage,
+          model: product.media.nodes.find((item) => item.sources?.length) || null,
           availableForSale: product.availableForSale && variant.availableForSale,
           quantityAvailable: variant.quantityAvailable ?? null,
           variantId: variant.id,
