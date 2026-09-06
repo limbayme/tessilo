@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { products as featuredProducts } from "./catalog";
 
 export type ShopifyLaunchProduct = {
   id: string;
@@ -9,21 +10,40 @@ export type ShopifyLaunchProduct = {
   variantId: string;
   variantTitle: string;
   availableForSale: boolean;
+  checkoutEnabled: boolean;
   quantityAvailable: number | null;
   image?: { url: string; altText?: string; width?: number; height?: number };
   model?: { id?: string; previewImage?: { url: string; altText?: string; width?: number; height?: number }; sources?: Array<{ url: string; mimeType: string; format: string; filesize: number }> } | null;
   price: { amount: string; currencyCode: string };
 };
 
-type CatalogPayload = { configured: boolean; products: ShopifyLaunchProduct[] };
+type CatalogPayload = { configured: boolean; products: ShopifyLaunchProduct[]; pageInfo?: { hasNextPage: boolean; endCursor: string | null } };
 
 export function useShopifyCatalog() {
   const [payload, setPayload] = useState<CatalogPayload>({ configured: false, products: [] });
   const [status, setStatus] = useState<"loading" | "ready" | "unconfigured" | "error">("loading");
   useEffect(() => {
     const controller = new AbortController();
-    fetch("/api/shopify/catalog", { signal: controller.signal })
-      .then((response) => response.ok ? response.json() : Promise.reject())
+    async function loadCatalog(): Promise<CatalogPayload> {
+      const products: ShopifyLaunchProduct[] = [];
+      const seen = new Set<string>();
+      let after: string | null = null;
+      do {
+        const params = new URLSearchParams({ skus: featuredProducts.map(product => product.sku).join(",") });
+        if (after) params.set("after", after);
+        const response = await fetch(`/api/shopify/catalog?${params}`, { signal: controller.signal });
+        if (!response.ok) throw new Error("catalog_unavailable");
+        const data = await response.json() as CatalogPayload;
+        if (!data.configured) return data;
+        products.push(...data.products);
+        if (!data.pageInfo?.hasNextPage) return { configured: true, products };
+        after = data.pageInfo.endCursor;
+        if (!after || seen.has(after) || seen.size >= 100) throw new Error("invalid_pagination");
+        seen.add(after);
+      } while (after);
+      return { configured: true, products };
+    }
+    loadCatalog()
       .then((data: CatalogPayload) => { setPayload(data); setStatus(data.configured ? "ready" : "unconfigured"); })
       .catch(() => setStatus("error"));
     return () => controller.abort();

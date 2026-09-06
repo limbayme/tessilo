@@ -2,22 +2,20 @@ export interface ShopifyEnv {
   SHOPIFY_STORE_DOMAIN?: string;
   SHOPIFY_STOREFRONT_PRIVATE_TOKEN?: string;
   SHOPIFY_STOREFRONT_API_VERSION?: string;
+  // Explicitly approved variant IDs only; an empty list keeps the launch quote-first.
+  SHOPIFY_CHECKOUT_VARIANT_IDS?: string;
 }
 
-const launchSkus = new Set([
-  "W3975S00042",
-  "W5885P548263",
-  "W3975P502469",
-  "W3975P437947",
-  "W3975P484393",
-  "W3975P519663",
-]);
+function checkoutVariants(env: ShopifyEnv) {
+  return new Set((env.SHOPIFY_CHECKOUT_VARIANT_IDS || "").split(",").map(id => id.trim()).filter(Boolean));
+}
 
 const headers = { "Content-Type": "application/json; charset=utf-8" };
 
 function endpoint(env: ShopifyEnv) {
   const domain = env.SHOPIFY_STORE_DOMAIN?.trim().replace(/^https?:\/\//, "").replace(/\/$/, "");
   if (!domain || !env.SHOPIFY_STOREFRONT_PRIVATE_TOKEN) return null;
+  if (!/^[a-z0-9][a-z0-9-]*\.myshopify\.com$/i.test(domain)) return null;
   const version = env.SHOPIFY_STOREFRONT_API_VERSION || "2026-07";
   return `https://${domain}/api/${version}/graphql.json`;
 }
@@ -42,8 +40,9 @@ async function storefront<T>(request: Request, env: ShopifyEnv, query: string, v
 }
 
 const catalogQuery = `#graphql
-  query TessiloLaunchCatalog($first: Int!) {
-    products(first: $first, sortKey: UPDATED_AT, reverse: true) {
+  query TessiloCatalog($first: Int!, $after: String, $query: String) {
+    products(first: $first, after: $after, query: $query, sortKey: TITLE) {
+      pageInfo { hasNextPage endCursor }
       nodes {
         id handle title description availableForSale
         featuredImage { url altText width height }
@@ -56,7 +55,8 @@ const catalogQuery = `#graphql
             }
           }
         }
-        variants(first: 30) {
+        variants(first: 250) {
+          pageInfo { hasNextPage }
           nodes { id title sku availableForSale quantityAvailable price { amount currencyCode } }
         }
       }
@@ -65,11 +65,11 @@ const catalogQuery = `#graphql
 `;
 
 type CatalogData = {
-  products: { nodes: Array<{
+  products: { pageInfo: { hasNextPage: boolean; endCursor: string | null }; nodes: Array<{
     id: string; handle: string; title: string; description: string; availableForSale: boolean;
     featuredImage?: { url: string; altText?: string; width?: number; height?: number };
     media: { nodes: Array<{ id?: string; previewImage?: { url: string; altText?: string; width?: number; height?: number }; sources?: Array<{ url: string; mimeType: string; format: string; filesize: number }> }> };
-    variants: { nodes: Array<{ id: string; title: string; sku?: string; availableForSale: boolean; quantityAvailable?: number; price: { amount: string; currencyCode: string } }> };
+    variants: { pageInfo: { hasNextPage: boolean }; nodes: Array<{ id: string; title: string; sku?: string; availableForSale: boolean; quantityAvailable?: number; price: { amount: string; currencyCode: string } }> };
   }> };
 };
 
@@ -77,10 +77,17 @@ export async function handleShopifyCatalog(request: Request, env: ShopifyEnv): P
   if (request.method !== "GET") return Response.json({ error: "method_not_allowed" }, { status: 405, headers: { Allow: "GET" } });
   if (!endpoint(env)) return Response.json({ configured: false, products: [] }, { headers });
   try {
-    const data = await storefront<CatalogData>(request, env, catalogQuery, { first: 50 });
+    const params = new URL(request.url).searchParams;
+    const after = params.get("after");
+    const skus = params.get("skus")?.split(",");
+    if ((after && after.length > 1024) || (skus && (skus.length > 50 || skus.some(sku => !/^[\w-]{1,80}$/.test(sku))))) {
+      return Response.json({ error: "invalid_query" }, { status: 400, headers });
+    }
+    const data = await storefront<CatalogData>(request, env, catalogQuery, { first: 12, after, query: skus?.map(sku => `sku:${sku}`).join(" OR ") || null });
+    const approved = checkoutVariants(env);
     const products = data.products.nodes.flatMap((product) =>
       product.variants.nodes
-        .filter((variant) => variant.sku && launchSkus.has(variant.sku))
+        .filter((variant) => variant.sku && (!skus || skus.includes(variant.sku)))
         .map((variant) => ({
           id: product.id,
           handle: product.handle,
@@ -89,6 +96,7 @@ export async function handleShopifyCatalog(request: Request, env: ShopifyEnv): P
           image: product.featuredImage,
           model: product.media.nodes.find((item) => item.sources?.length) || null,
           availableForSale: product.availableForSale && variant.availableForSale,
+          checkoutEnabled: approved.has(variant.id),
           quantityAvailable: variant.quantityAvailable ?? null,
           variantId: variant.id,
           variantTitle: variant.title,
@@ -96,7 +104,8 @@ export async function handleShopifyCatalog(request: Request, env: ShopifyEnv): P
           price: variant.price,
         })),
     );
-    return Response.json({ configured: true, products }, {
+    return Response.json({ configured: true, products, pageInfo: data.products.pageInfo,
+      truncatedVariantProducts: data.products.nodes.filter(product => product.variants.pageInfo.hasNextPage).map(product => product.id) }, {
       headers: { ...headers, "Cache-Control": "public, max-age=60, s-maxage=300, stale-while-revalidate=600" },
     });
   } catch {
@@ -128,6 +137,10 @@ export async function handleShopifyCart(request: Request, env: ShopifyEnv): Prom
       if (typeof line.merchandiseId !== "string" || !line.merchandiseId.startsWith("gid://shopify/ProductVariant/") || !Number.isInteger(line.quantity) || line.quantity! < 1 || line.quantity! > 100) throw new Error("invalid");
       return { merchandiseId: line.merchandiseId, quantity: line.quantity };
     });
+    const approved = checkoutVariants(env);
+    if (lines.some(line => !approved.has(line.merchandiseId))) {
+      return Response.json({ error: "quote_required" }, { status: 409, headers });
+    }
     const data = await storefront<CartData>(request, env, cartMutation, { input: { lines, attributes: [{ key: "source", value: "tessilo-headless" }] } });
     const result = data.cartCreate;
     if (!result.cart || result.userErrors.length) return Response.json({ error: "cart_rejected", details: result.userErrors }, { status: 422, headers });

@@ -4,7 +4,7 @@ import { startShopifyCheckout, type ShopifyLaunchProduct } from "./shopify";
 
 export default function ShopifyBuyButton({ product, quantity = 1, label = "Buy now", unavailableLabel = "Notify me" }: { product?: ShopifyLaunchProduct; quantity?: number; label?: string; unavailableLabel?: string }) {
   const [state, setState] = useState<"idle" | "loading" | "error">("idle");
-  if (!product) return null;
+  if (!product || !product.checkoutEnabled) return null;
   const buy = async () => {
     if (!product.availableForSale || state === "loading") return;
     setState("loading");
