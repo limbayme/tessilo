@@ -80,7 +80,7 @@ public/assets/          Localized Figma imagery
 public/assets/excel/    Excel product images, QR/social assets, and generated scene renders
 product-assets/         Product photo assets by SKU (source images, 2026-10-24 update)
 contents/               Source documents: pricing Excel and product catalog
-PRICING.md              Price, channel and promotion table synced from the pricing Excel
+PRICING.md              Retail price, cost and notes per SKU (channel/promotion not included)
 ```
 
 ## Notes
@@ -103,45 +103,59 @@ INQUIRY_FROM=Tessilo <quotes@your-verified-domain.com>
 | 项目 | 位置 | 说明 |
 |---|---|---|
 | 最新商品素材 | [`product-assets/`](product-assets) | 按 SKU 分目录，本次 10 个 SKU、共 67 张图片（含主图、细节图、尺寸图） |
-| 定价源文件 | [`contents/Tessilo_沙发定价表_实际成本版.xlsx`](contents/Tessilo_沙发定价表_实际成本版.xlsx) | 实际成本版，8 个工作表、84 个 SKU |
-| 定价文档 | [`PRICING.md`](PRICING.md) | 按 SKU 同步价格、渠道、促销策略与备注 |
+| 定价表（在线可看） | [`contents/Tessilo_沙发定价表_精简版_20261024.xlsx`](contents/Tessilo_沙发定价表_精简版_20261024.xlsx) | 18 KB，8 个工作表、84 个 SKU，与原始表数值一致，仅去除内嵌图片 |
+| 定价表（CSV） | [`contents/PRICING_20261024.csv`](contents/PRICING_20261024.csv) | 17 KB，84 个 SKU 扁平化，可直接用 Excel／表格工具打开 |
+| 定价文档 | [`PRICING.md`](PRICING.md) | 按 SKU 同步零售价、成本、自提与备注 |
 | 素材来源 | 本地 `商品素材.zip`（156 MB，已解压为单图入库；压缩包超过 GitHub 单文件 100 MB 限制，未整包上传） | 原始文件夹名含中文描述（如 `W3975P437949豆袋驼`），入库后统一改为纯 SKU 目录名 |
+
+> 定价表原始文件 `Tessilo_沙发定价表_实际成本版.xlsx` 为 90 MB，GitHub 无法在线预览，因此**未入库**，原始文件保留在本地 `~/Desktop/压缩沙发/`。仓库内的精简版 xlsx、CSV 与 `PRICING.md` 三处数值完全一致（84 个 SKU）。
 
 ### 本次素材清单（10 个 SKU / 67 张图片）
 
-| SKU | 图片数 | 面料+颜色（Excel 原值） | MSRP($) | 素材目录 |
-|---|---|---|---|---|
-| `W3975P437949` | 7 | 灯芯绒驼色 camel | 198.99 | [`product-assets/W3975P437949`](product-assets/W3975P437949) |
-| `W3975P440925` | 6 | 灯芯绒粉色 Pink | 191.99 | [`product-assets/W3975P440925`](product-assets/W3975P440925) |
-| `W3975P501411` | 8 | 棉麻黑色L | 591.99 | [`product-assets/W3975P501411`](product-assets/W3975P501411) |
-| `W3975P510434` | 7 | 长毛绒灰色（目录名标注"黑"，冲突待确认） | 181.99 | [`product-assets/W3975P510434`](product-assets/W3975P510434) |
-| `W3975P519736` | 7 | 灯芯绒咖啡色L | 583.99 | [`product-assets/W3975P519736`](product-assets/W3975P519736) |
-| `W3975P530974` | 6 | 灯芯绒橙色 orange | 340.99 | [`product-assets/W3975P530974`](product-assets/W3975P530974) |
-| `W3975S00042` | 5 | 灯芯绒米白色 WHITE | 924.99 | [`product-assets/W3975S00042`](product-assets/W3975S00042) |
-| `W3975S00121` | 6 | 细灯芯绒棕色 | 584.99 | [`product-assets/W3975S00121`](product-assets/W3975S00121) |
-| `W3975S00183` | 7 | 灯芯绒驼色 CAMEL | 1330.99 | [`product-assets/W3975S00183`](product-assets/W3975S00183) |
-| `W5885P517229` | 8 | 长毛绒白色 WHITE 带杯托 | 424.99 | [`product-assets/W5885P517229`](product-assets/W5885P517229) |
+> 颜色口径：同款产品颜色可互换，**颜色以素材目录为准**。下表「颜色」列取自 `product-assets/<SKU>` 目录名；目录未标颜色的 SKU 沿用 Excel 颜色值。
+
+| SKU | 图片数 | 颜色（以素材目录为准） | Excel 颜色（参考） | MSRP($) | 素材目录 |
+|---|---|---|---|---|---|
+| `W3975P437949` | 7 | 驼色 | 灯芯绒驼色 camel | 198.99 | [`product-assets/W3975P437949`](product-assets/W3975P437949) |
+| `W3975P440925` | 6 | 粉色 | 灯芯绒粉色 Pink | 191.99 | [`product-assets/W3975P440925`](product-assets/W3975P440925) |
+| `W3975P501411` | 8 | 黑色 | 棉麻黑色L | 591.99 | [`product-assets/W3975P501411`](product-assets/W3975P501411) |
+| `W3975P510434` | 7 | 黑色 | 长毛绒灰色（以目录为准，取黑色） | 181.99 | [`product-assets/W3975P510434`](product-assets/W3975P510434) |
+| `W3975P519736` | 7 | 咖啡色 | 灯芯绒咖啡色L | 583.99 | [`product-assets/W3975P519736`](product-assets/W3975P519736) |
+| `W3975P530974` | 6 | 橙色 | 灯芯绒橙色 orange | 340.99 | [`product-assets/W3975P530974`](product-assets/W3975P530974) |
+| `W3975S00042` | 5 | 白色 | 灯芯绒米白色 WHITE | 924.99 | [`product-assets/W3975S00042`](product-assets/W3975S00042) |
+| `W3975S00121` | 6 | 棕色 | 细灯芯绒棕色 | 584.99 | [`product-assets/W3975S00121`](product-assets/W3975S00121) |
+| `W3975S00183` | 7 | 驼色（目录未标色，沿用 Excel） | 灯芯绒驼色 CAMEL | 1330.99 | [`product-assets/W3975S00183`](product-assets/W3975S00183) |
+| `W5885P517229` | 8 | 白色（目录未标色，沿用 Excel） | 长毛绒白色 WHITE 带杯托 | 424.99 | [`product-assets/W5885P517229`](product-assets/W5885P517229) |
 
 ### 本次新增 / 替换内容
 
 - **新增**：`product-assets/`（10 个 SKU 目录、67 张商品图，按 SKU 命名）。
-- **新增**：`contents/Tessilo_沙发定价表_实际成本版.xlsx`（定价源文件，约 90 MB，作为 `PRICING.md` 的唯一来源）。
-- **新增**：`PRICING.md`（首次建立，按 SKU 同步价格与成本，并列出全部待确认项）。
+- **新增**：`contents/Tessilo_沙发定价表_精简版_20261024.xlsx`（18 KB）与 `contents/PRICING_20261024.csv`（17 KB），解决 90 MB 原始表在 GitHub 打不开的问题（数值与原始表一致）。
+- **移出**：`contents/Tessilo_沙发定价表_实际成本版.xlsx`（90 MB）已从仓库移除，原始文件保留在本地 `~/Desktop/压缩沙发/`；如需入库原文，建议改用 Git LFS。
+- **新增**：`PRICING.md`（首次建立，按 SKU 同步零售价、成本与备注，并列出待确认项）。
 - **扩充（替换说明）**：`W3975S00042` 此前仅有 `public/assets/launch/W3975S00042.jpg` 一张主图，本次补充 5 张完整素材；原有图片**保留未删除**。
 - **未改动**：`public/assets/`、`public/assets/launch/`（含 `W3975P437947`、`W3975P484393`、`W3975P502469`、`W3975P519663`、`W5885P548263`）、`public/assets/excel/` 下既有图片均保持原样，未覆盖他人素材。
 - **价格状态**：本次为**首次导入价格**（此前仓库无 `PRICING.md`），价格按 Excel 原值全量同步，未沿用或推算任何旧值。
 
+### 本次口径（2026-10-24 业务确认）
+
+1. 销售渠道／平台、折扣／活动价／促销策略**本次不纳入**，定价以建议零售价 MSRP 为准。
+2. 同款产品**颜色可互换，以素材目录为准**（Excel 颜色仅作参考）。
+3. 库存无重复：含两列库存的工作表为**组合产品的分件库存**（部件 1／部件 2）。
+4. 空白库存**暂不维护**，未补 0、未估算。
+5. 小抱枕等附件随产品，**不单独计价**。
+
 ### 待确认（详见 [`PRICING.md`](PRICING.md)）
 
-1. 渠道与促销策略：Excel 无对应字段，全部 SKU 标记「待确认」，未推算。
-2. `W3975P510434` 素材目录名标注「脚踏黑」，Excel 记录为「长毛绒灰色」，素材与 SKU 是否错配待确认。
-3. 库存空白与重复库存列（`小L型沙发97一包裹` D/F 列、`新款-双扶手贵妃` E/F 列）、`新款-双扶手贵妃` 无材质列、多 SKU 合并行与「小抱枕」附加标注，均待确认。
-4. 素材覆盖 10 / 84 个 SKU，其余 74 个 SKU 暂无素材。
+1. `新款-双扶手贵妃` 工作表无「材质」列，该表 SKU 材质待确认。
+2. Excel 未标注价格生效日期，「价格版本日期」暂按文件提供日 2026-10-24 记录。
+3. 素材覆盖 10 / 84 个 SKU，其余 74 个 SKU 暂无素材。
 
 ### 后续维护要求
 
 1. 价格以 Excel 为唯一来源；调价先改 Excel，再同步 `PRICING.md` 并更新「价格版本日期」与「文档核对日期」。若某次仅更新素材，则保留现有价格并注明「价格未变」，只更新素材链接与核对日期。
 2. 缺失、冲突或空白数据一律保留「待确认」标记，由业务方在 Excel 中确认后回填，禁止自行推算或覆盖。
 3. 新增素材按 `product-assets/<SKU>/` 存放（目录名用纯 SKU），同步更新本文档的 SKU 与图片数量，以及 `PRICING.md` 的素材链接。
-4. 每次更新后核验 SKU 数量、价格数值、素材链接三项一致再提交。
-5. 站点前台保持 B2B 询价模式，不公开 MSRP 与成本。
+4. 定价表更新时同步三处：`PRICING.md`、`contents/PRICING_20261024.csv`、精简版 xlsx，保证数值一致；90 MB 原始文件不建议直接入库（无法在线预览），必要时改用 Git LFS。
+5. 每次更新后核验 SKU 数量、价格数值、素材链接三项一致再提交。
+6. 站点前台保持 B2B 询价模式，不公开 MSRP 与成本。
