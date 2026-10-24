@@ -103,12 +103,10 @@ INQUIRY_FROM=Tessilo <quotes@your-verified-domain.com>
 | 项目 | 位置 | 说明 |
 |---|---|---|
 | 最新商品素材 | [`product-assets/`](product-assets) | 按 SKU 分目录，本次 10 个 SKU、共 67 张图片（含主图、细节图、尺寸图） |
-| 定价表（在线可看） | [`contents/Tessilo_沙发定价表_精简版_20261024.xlsx`](contents/Tessilo_沙发定价表_精简版_20261024.xlsx) | 18 KB，8 个工作表、84 个 SKU，与原始表数值一致，仅去除内嵌图片 |
-| 定价表（CSV） | [`contents/PRICING_20261024.csv`](contents/PRICING_20261024.csv) | 17 KB，84 个 SKU 扁平化，可直接用 Excel／表格工具打开 |
+| 定价源文件（唯一标准） | [`contents/Tessilo_沙发定价表_实际成本版.xlsx`](contents/Tessilo_沙发定价表_实际成本版.xlsx) | 90 MB，8 个工作表、84 个 SKU，**原始文件未做任何修改**；GitHub 无法在线预览该体积，需点击 Download 下载后打开 |
+| 在线预览副本（选读） | [`contents/Tessilo_沙发定价表_精简版_20261024.xlsx`](contents/Tessilo_沙发定价表_精简版_20261024.xlsx)（18 KB）、[`contents/PRICING_20261024.csv`](contents/PRICING_20261024.csv)（17 KB） | 仅为解决「GitHub 打不开 90 MB 文件」而生成的副本，数值与原始表一致，不替代原始文件 |
 | 定价文档 | [`PRICING.md`](PRICING.md) | 按 SKU 同步零售价、成本、自提与备注 |
 | 素材来源 | 本地 `商品素材.zip`（156 MB，已解压为单图入库；压缩包超过 GitHub 单文件 100 MB 限制，未整包上传） | 原始文件夹名含中文描述（如 `W3975P437949豆袋驼`），入库后统一改为纯 SKU 目录名 |
-
-> 定价表原始文件 `Tessilo_沙发定价表_实际成本版.xlsx` 为 90 MB，GitHub 无法在线预览，因此**未入库**，原始文件保留在本地 `~/Desktop/压缩沙发/`。仓库内的精简版 xlsx、CSV 与 `PRICING.md` 三处数值完全一致（84 个 SKU）。
 
 ### 本次素材清单（10 个 SKU / 67 张图片）
 
@@ -130,8 +128,8 @@ INQUIRY_FROM=Tessilo <quotes@your-verified-domain.com>
 ### 本次新增 / 替换内容
 
 - **新增**：`product-assets/`（10 个 SKU 目录、67 张商品图，按 SKU 命名）。
-- **新增**：`contents/Tessilo_沙发定价表_精简版_20261024.xlsx`（18 KB）与 `contents/PRICING_20261024.csv`（17 KB），解决 90 MB 原始表在 GitHub 打不开的问题（数值与原始表一致）。
-- **移出**：`contents/Tessilo_沙发定价表_实际成本版.xlsx`（90 MB）已从仓库移除，原始文件保留在本地 `~/Desktop/压缩沙发/`；如需入库原文，建议改用 Git LFS。
+- **恢复**：`contents/Tessilo_沙发定价表_实际成本版.xlsx`（90 MB）重新入库，**原始文件未做任何修改**，作为定价的唯一标准。
+- **附加入库（可选读）**：`contents/Tessilo_沙发定价表_精简版_20261024.xlsx`（18 KB）与 `contents/PRICING_20261024.csv`（17 KB），仅为解决 90 MB 文件在 GitHub 无法在线预览的问题，数值与原始表一致；如不需要可直接删除，不影响原始表。
 - **新增**：`PRICING.md`（首次建立，按 SKU 同步零售价、成本与备注，并列出待确认项）。
 - **扩充（替换说明）**：`W3975S00042` 此前仅有 `public/assets/launch/W3975S00042.jpg` 一张主图，本次补充 5 张完整素材；原有图片**保留未删除**。
 - **未改动**：`public/assets/`、`public/assets/launch/`（含 `W3975P437947`、`W3975P484393`、`W3975P502469`、`W3975P519663`、`W5885P548263`）、`public/assets/excel/` 下既有图片均保持原样，未覆盖他人素材。
@@ -156,6 +154,6 @@ INQUIRY_FROM=Tessilo <quotes@your-verified-domain.com>
 1. 价格以 Excel 为唯一来源；调价先改 Excel，再同步 `PRICING.md` 并更新「价格版本日期」与「文档核对日期」。若某次仅更新素材，则保留现有价格并注明「价格未变」，只更新素材链接与核对日期。
 2. 缺失、冲突或空白数据一律保留「待确认」标记，由业务方在 Excel 中确认后回填，禁止自行推算或覆盖。
 3. 新增素材按 `product-assets/<SKU>/` 存放（目录名用纯 SKU），同步更新本文档的 SKU 与图片数量，以及 `PRICING.md` 的素材链接。
-4. 定价表更新时同步三处：`PRICING.md`、`contents/PRICING_20261024.csv`、精简版 xlsx，保证数值一致；90 MB 原始文件不建议直接入库（无法在线预览），必要时改用 Git LFS。
+4. 以原始 Excel 为唯一标准；更新定价时同步 `PRICING.md`、`contents/PRICING_20261024.csv`、精简版 xlsx，保证数值一致（在线副本可按需保留或删除）。90 MB 原始表已入库，后续如需减小仓库体积可考虑 Git LFS。
 5. 每次更新后核验 SKU 数量、价格数值、素材链接三项一致再提交。
 6. 站点前台保持 B2B 询价模式，不公开 MSRP 与成本。
